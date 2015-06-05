@@ -5,9 +5,8 @@ import static spark.Spark.*;
  * Hello world!
  *
  */
-public class App
+public class Shields
 {
-
         public static void main(String[] args) {
 
             get("/hello", (request, response) -> "Hello World!");
