@@ -4,7 +4,7 @@
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
  *  copyright notice and this permission notice appear in all copies.
- *  
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  *  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  *  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
@@ -15,15 +15,22 @@
  *
  */
 
-package com.github.nwillc.shields;
+package com.github.nwillc.shields.repositories;
 
-import spark.Request;
-import spark.Response;
+import java.util.Optional;
 
-public class GradlePlugin {
-    // http://plugins.gradle.org/m2/gradle/plugin/com/github/nwillc/vplugin/1.2.3/vplugin-1.2.3.jar
-    public Response response(Request request, Response response) {
-        response.redirect("https://img.shields.io/badge/gradle%20plugin-latest-green.svg?style=flat");
-        return response;
+public class JCenter extends RepositoryAccess {
+    public JCenter(String metadataUrlTemplate, String homeUrlFormat) {
+        super(metadataUrlTemplate, homeUrlFormat);
+    }
+
+    @Override
+    public Optional<String> getMetadatUrl(String groupName, String packageName) {
+        return null;
+    }
+
+    @Override
+    public Optional<String> getHomepageUrl(String groupName, String packageName) {
+        return null;
     }
 }
