@@ -7,10 +7,12 @@
     <version>1.0-SNAPSHOT</version>
     <name>shields</name>
     <properties>
+        <assertj.version>3.0.0</assertj.version>
         <source.version>1.8</source.version>
         <junit.version>4.12</junit.version>
         <compiler.version>3.2</compiler.version>
         <jetty.version>9.0.2.v20130417</jetty.version>
+        <contracts.version>1.6.7</contracts.version>
     </properties>
     <dependencies>
         <dependency>
@@ -18,22 +20,22 @@
             <artifactId>spark-core</artifactId>
             <version>2.2</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.nwillc</groupId>
+            <artifactId>contracts</artifactId>
+            <version>${contracts.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -61,8 +63,6 @@
                 <configuration>
                     <source>${source.version}</source>
                     <target>${source.version}</target>
-                    <optimize>true</optimize>
-                    <debug>true</debug>
                 </configuration>
             </plugin>
             <plugin>
