@@ -17,10 +17,26 @@
 
 package com.github.nwillc.shields.repositories;
 
-public class JCenter extends RepositoryAccess {
-    public JCenter() {
-        super("https://jcenter.bintray.com/%s/%s/maven-metadata.xml",
-                "https://bintray.com/bintray/jcenter/%s%%3A%s");
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class JCenterTest {
+    private RepositoryAccess instance;
+
+    @Before
+    public void setUp() throws Exception {
+        instance = new JCenter();
     }
 
+    @Test
+    public void testGetPath() throws Exception {
+        assertThat(instance.getPath()).isEqualTo("jcenter");
+    }
+
+    @Test
+    public void testGetLatest() throws Exception {
+        assertThat(instance.latestVersion("com/github/nwillc","ToString").get()).isEqualTo("0.2.1");
+    }
 }

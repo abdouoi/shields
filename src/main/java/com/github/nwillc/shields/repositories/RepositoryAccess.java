@@ -17,29 +17,67 @@
 
 package com.github.nwillc.shields.repositories;
 
-import java.util.Optional;
+import com.github.nwillc.shields.XMLUtils;
+import spark.Request;
+import spark.Response;
 
-public abstract class RepositoryAccess {
+import java.net.URL;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class RepositoryAccess {
+    private final static Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
+    private final static String SHIELD_URL = "https://img.shields.io/badge/%s-%s-green.svg?style=flat";
+
     private final String metadataUrlFormat;
     private final String homeUrlFormat;
 
-    public RepositoryAccess(String metadataUrlFormat, String homeUrlFormat) {
+    RepositoryAccess(String metadataUrlFormat, String homeUrlFormat) {
         this.metadataUrlFormat = metadataUrlFormat;
         this.homeUrlFormat = homeUrlFormat;
     }
 
-    public abstract Optional<String> getMetadatUrl(String groupName, String packageName);
-    public abstract  Optional<String> getHomepageUrl(String groupName, String packageName);
+    public String getPath() {
+        return this.getClass().getSimpleName().toLowerCase();
+    }
 
-    public String getMetadataUrlFormat() {
+    public Response getShield(Request request, Response response) {
+        String groupName = request.queryParams("group").replace('.', '/');
+        String packageName = request.queryParams("package");
+        LOGGER.info("Get shield for group " + groupName + " package " + packageName);
+        Optional<String> latestVersion  = latestVersion(groupName, packageName);
+        response.redirect(String.format(SHIELD_URL, getPath(), latestVersion.get()));
+        return response;
+    }
+
+    Optional<String> getMetadatUrl(String groupName, String packageName) {
+        return Optional.of(String.format(getMetadataUrlFormat(), groupName, packageName));
+    }
+
+    Optional<String> getHomepageUrl(String groupName, String packageName) {
+        return Optional.of(String.format(getHomeUrlFormat(), groupName, packageName));
+    }
+
+    String getMetadataUrlFormat() {
         return metadataUrlFormat;
     }
 
-    public String getHomeUrlFormat() {
+    String getHomeUrlFormat() {
         return homeUrlFormat;
     }
 
-    public Optional<String> latestVersion() {
+    Optional<String> latestVersion(String groupName, String packageName) {
+        Optional<String> metadatUrl = getMetadatUrl(groupName, packageName);
+        if (!metadatUrl.isPresent()) {
+            return Optional.empty();
+        }
+        try {
+            URL url = new URL(metadatUrl.get());
+            return XMLUtils.latestVersion(url.openStream());
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception getting latest version: " + e);
+        }
         return Optional.empty();
     }
 }

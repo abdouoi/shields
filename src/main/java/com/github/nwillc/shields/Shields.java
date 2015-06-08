@@ -1,14 +1,17 @@
 package com.github.nwillc.shields;
 
+import com.github.nwillc.shields.repositories.JCenter;
+import com.github.nwillc.shields.repositories.RepositoryAccess;
+
 import static spark.Spark.get;
-/**
- * Hello world!
- *
- */
+
 public class Shields
 {
-        public static void main(String[] args) {
-            get("/ping", (request, response) -> "PONG");
-        }
+    static RepositoryAccess jcenter = new JCenter();
+
+    public static void main(String[] args) {
+        get("/ping", (request, response) -> "PONG");
+        get("/shield/" + jcenter.getPath(), jcenter::getShield);
+    }
 
 }

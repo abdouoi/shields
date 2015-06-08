@@ -32,7 +32,7 @@ public class RepositoryAccessTest {
 
     @Before
     public void setUp() throws Exception {
-        instance = new DummyRepo();
+        instance = new Dummy();
     }
 
     @Test
@@ -62,8 +62,13 @@ public class RepositoryAccessTest {
         assertThat(url.get()).isEqualTo("foo/bar");
     }
 
-    private static class DummyRepo extends RepositoryAccess {
-        public DummyRepo() {
+    @Test
+    public void testGetPath() throws Exception {
+        assertThat(instance.getPath()).isEqualTo("dummy");
+    }
+
+    private static class Dummy extends RepositoryAccess {
+        public Dummy() {
             super(METADATA_URL_FORMAT, HOME_URL_FORMAT);
         }
 
