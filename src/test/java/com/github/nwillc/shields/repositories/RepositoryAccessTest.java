@@ -26,8 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class RepositoryAccessTest {
-    public static final String METADATA_URL_FORMAT = "%s/%s";
-    public static final String HOME_URL_FORMAT = "%s|%s|%s";
+    private static final String METADATA_URL_FORMAT = "%s/%s";
+    private static final String HOME_URL_FORMAT = "%s|%s|%s";
     private RepositoryAccess instance;
 
     @Before

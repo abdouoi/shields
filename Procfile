@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* com.github.nwillc.shields.Shields
+web:    java -cp target/classes:target/dependency/* com.github.nwillc.shields.Shields --port $PORT

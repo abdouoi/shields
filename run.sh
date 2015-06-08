@@ -6,4 +6,4 @@ cd ${SCRIPT_DIR}
 
 mvn install -DskipTests
 
-java -cp target/classes:target/dependency/* com.github.nwillc.shields.Shields
+java -cp target/classes:target/dependency/* com.github.nwillc.shields.Shields $*
