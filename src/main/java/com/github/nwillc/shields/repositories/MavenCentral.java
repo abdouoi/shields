@@ -17,24 +17,18 @@
 
 package com.github.nwillc.shields.repositories;
 
-import spark.Request;
-import spark.Response;
 
-import java.util.Optional;
+public class MavenCentral extends RepositoryAccess {
 
-public class JCenter extends RepositoryAccess {
-    private static final String METADATA_URL_FORMAT = "https://jcenter.bintray.com/%s/%s/maven-metadata.xml";
-    private static final String HOME_URL_FORMAT = "https://bintray.com/%s/%s/view";
+    private static final String METADATA_URL_FORMAT = "https://repo1.maven.org/maven2/%s/%s/maven-metadata.xml";
+    public static final String HOME_URL_FORMAT = "http://search.maven.org/#artifactdetails|%s|%s|%s|";
 
-    public JCenter() {
+    public MavenCentral() {
         super(METADATA_URL_FORMAT, HOME_URL_FORMAT);
     }
 
     @Override
-    public Response getHomepage(Request request, Response response) {
-        RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = latestVersion(args);
-        response.redirect(String.format(getHomeUrlFormat(), args.path.get(), latestVersion.get()));
-        return response;
+    public String getPath() {
+        return "maven_central";
     }
 }

@@ -1,6 +1,7 @@
 package com.github.nwillc.shields;
 
 import com.github.nwillc.shields.repositories.JCenter;
+import com.github.nwillc.shields.repositories.MavenCentral;
 import com.github.nwillc.shields.repositories.RepositoryAccess;
 import org.apache.commons.cli.*;
 
@@ -12,7 +13,7 @@ import static spark.SparkBase.port;
 public class Shields
 {
     private final static Logger LOGGER = Logger.getLogger(Shields.class.getSimpleName());
-    private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{new JCenter()};
+    private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{new JCenter(), new MavenCentral()};
 
     enum CLI {
         help,
