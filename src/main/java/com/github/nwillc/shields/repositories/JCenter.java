@@ -20,7 +20,7 @@ package com.github.nwillc.shields.repositories;
 public class JCenter extends RepositoryAccess {
     public JCenter() {
         super("https://jcenter.bintray.com/%s/%s/maven-metadata.xml",
-                "https://bintray.com/bintray/jcenter/%s%%3A%s");
+                "https://bintray.com/%s/%s/%s/");
     }
 
 }

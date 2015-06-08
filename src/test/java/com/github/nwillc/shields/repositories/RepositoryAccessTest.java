@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RepositoryAccessTest {
     public static final String METADATA_URL_FORMAT = "%s/%s";
-    public static final String HOME_URL_FORMAT = "%s|%s";
+    public static final String HOME_URL_FORMAT = "%s|%s|%s";
     private RepositoryAccess instance;
 
     @Before
@@ -47,10 +47,10 @@ public class RepositoryAccessTest {
 
     @Test
     public void testGetHomeUrl() throws Exception {
-        Optional<String> url = instance.getHomepageUrl("foo", "bar");
+        Optional<String> url = instance.getHomepageUrl("foo", "bar", "1");
         assertThat(url).isNotNull();
         assertThat(url.isPresent()).isTrue();
-        assertThat(url.get()).isEqualTo("foo|bar");
+        assertThat(url.get()).isEqualTo("foo|bar|1");
 
     }
 
@@ -78,8 +78,8 @@ public class RepositoryAccessTest {
         }
 
         @Override
-        public Optional<String> getHomepageUrl(String groupName, String packageName) {
-            return Optional.of(String.format(HOME_URL_FORMAT, groupName, packageName));
+        public Optional<String> getHomepageUrl(String groupName, String packageName, String version) {
+            return Optional.of(String.format(HOME_URL_FORMAT, groupName, packageName, version));
         }
     }
 }

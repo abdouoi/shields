@@ -43,11 +43,16 @@ public class RepositoryAccess {
     }
 
     public Response getShield(Request request, Response response) {
-        String groupName = request.queryParams("group").replace('.', '/');
-        String packageName = request.queryParams("package");
-        LOGGER.info("Get shield for group " + groupName + " package " + packageName);
-        Optional<String> latestVersion  = latestVersion(groupName, packageName);
+        RequestArgs args = new RequestArgs(request);
+        Optional<String> latestVersion  = latestVersion(args);
         response.redirect(String.format(SHIELD_URL, getPath(), latestVersion.get()));
+        return response;
+    }
+
+    public Response getHomepage(Request request, Response response) {
+        RequestArgs args = new RequestArgs(request);
+        Optional<String> latestVersion  = latestVersion(args);
+        response.redirect(getHomepageUrl(args.groupName.get(),  args.packageName.get(), latestVersion.get()).get());
         return response;
     }
 
@@ -55,8 +60,8 @@ public class RepositoryAccess {
         return Optional.of(String.format(getMetadataUrlFormat(), groupName, packageName));
     }
 
-    Optional<String> getHomepageUrl(String groupName, String packageName) {
-        return Optional.of(String.format(getHomeUrlFormat(), groupName, packageName));
+    Optional<String> getHomepageUrl(String groupName, String packageName, String version) {
+        return Optional.of(String.format(getHomeUrlFormat(), groupName, packageName, version));
     }
 
     String getMetadataUrlFormat() {
@@ -65,6 +70,11 @@ public class RepositoryAccess {
 
     String getHomeUrlFormat() {
         return homeUrlFormat;
+    }
+
+    Optional<String> latestVersion(RequestArgs args) {
+        LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
+        return latestVersion(args.groupName.get().replace('.', '/'), args.packageName.get());
     }
 
     Optional<String> latestVersion(String groupName, String packageName) {
@@ -79,5 +89,22 @@ public class RepositoryAccess {
             LOGGER.log(Level.WARNING, "Exception getting latest version: " + e);
         }
         return Optional.empty();
+    }
+
+    static class RequestArgs {
+        enum Args {
+            GROUP,
+            PACKAGE,
+            PATH
+        }
+        final Optional<String> groupName;
+        final Optional<String> packageName;
+        final Optional<String> path;
+
+        public RequestArgs(Request request) {
+            groupName = Optional.ofNullable(request.queryParams(Args.GROUP.name().toLowerCase()));
+            packageName = Optional.ofNullable(request.queryParams(Args.PACKAGE.name().toLowerCase()));
+            path = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
+        }
     }
 }
