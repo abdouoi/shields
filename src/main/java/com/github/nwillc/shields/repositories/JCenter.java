@@ -17,10 +17,22 @@
 
 package com.github.nwillc.shields.repositories;
 
+import spark.Request;
+import spark.Response;
+
+import java.util.Optional;
+
 public class JCenter extends RepositoryAccess {
     public JCenter() {
         super("https://jcenter.bintray.com/%s/%s/maven-metadata.xml",
-                "https://bintray.com/%s/%s/%s/");
+                "https://bintray.com/%s/%s/");
     }
 
+    @Override
+    public Response getHomepage(Request request, Response response) {
+        RequestArgs args = new RequestArgs(request);
+        Optional<String> latestVersion  = latestVersion(args);
+        response.redirect(String.format(getHomeUrlFormat(), args.path.get(), latestVersion.get()));
+        return response;
+    }
 }

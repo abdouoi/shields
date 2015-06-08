@@ -74,19 +74,22 @@ public class RepositoryAccess {
 
     Optional<String> latestVersion(RequestArgs args) {
         LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
-        return latestVersion(args.groupName.get().replace('.', '/'), args.packageName.get());
+        Optional<String> latestVersion = latestVersion(args.groupName.get().replace('.', '/'), args.packageName.get());
+        LOGGER.info("Got latest " + latestVersion.orElse("unknown"));
+        return latestVersion;
     }
 
     Optional<String> latestVersion(String groupName, String packageName) {
         Optional<String> metadatUrl = getMetadatUrl(groupName, packageName);
         if (!metadatUrl.isPresent()) {
+            LOGGER.info("Metatdata not present for " + groupName + " " + packageName);
             return Optional.empty();
         }
         try {
             URL url = new URL(metadatUrl.get());
             return XMLUtils.latestVersion(url.openStream());
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception getting latest version: " + e);
+            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl.get() + ": " + e);
         }
         return Optional.empty();
     }
