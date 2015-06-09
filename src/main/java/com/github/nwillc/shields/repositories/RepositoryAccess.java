@@ -45,7 +45,7 @@ public class RepositoryAccess {
     public Response getShield(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
         Optional<String> latestVersion  = latestVersion(args);
-        response.redirect(String.format(SHIELD_URL, getPath(), latestVersion.get()));
+        response.redirect(String.format(getShieldUrl(), getPath(), latestVersion.get()));
         return response;
     }
 
@@ -62,6 +62,10 @@ public class RepositoryAccess {
 
     Optional<String> getHomepageUrl(String groupName, String packageName, String version) {
         return Optional.of(String.format(getHomeUrlFormat(), groupName, packageName, version));
+    }
+
+    String getShieldUrl() {
+        return SHIELD_URL;
     }
 
     String getMetadataUrlFormat() {

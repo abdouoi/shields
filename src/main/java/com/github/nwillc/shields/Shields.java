@@ -1,9 +1,6 @@
 package com.github.nwillc.shields;
 
-import com.github.nwillc.shields.repositories.GradlePlugin;
-import com.github.nwillc.shields.repositories.JCenter;
-import com.github.nwillc.shields.repositories.MavenCentral;
-import com.github.nwillc.shields.repositories.RepositoryAccess;
+import com.github.nwillc.shields.repositories.*;
 import org.apache.commons.cli.*;
 
 import java.util.logging.Logger;
@@ -16,7 +13,8 @@ public class Shields
     private final static Logger LOGGER = Logger.getLogger(Shields.class.getSimpleName());
     private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{ new JCenter(),
                                                                             new MavenCentral(),
-                                                                            new GradlePlugin()};
+                                                                            new GradlePlugin(),
+                                                                            new Github()};
 
     enum CLI {
         help,
