@@ -35,7 +35,7 @@ public class Github extends RepositoryAccess {
         response.redirect(String.format(getShieldUrl(), getPath(), "latest"));
         return response;
     }
-    
+
     @Override
     public Response getHomepage(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);

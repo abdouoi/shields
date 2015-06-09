@@ -7,6 +7,6 @@ deploy:
   provider: heroku
   api_key:
     secure: S+lSpbpxsk3Aa8ddfqtnfva+7obeTQTSxw+bM4J6AtdhCFTc4jQRefaOp5AwD478n2tkTor5YCD5l9B8spfR8my6wS90dV45/6uJ/HmD2UViu0D1eTP5OD8FsKLq0yVu2SIIunsvPZHKiOFZNNTdslpa6xYgwnd8yG0T0e3c/KYYh/e5KMNUtjXDjExjqgYSwVOPBPdrH5EKqoP+Vb/nUHMdx0mRiKmVLSyzH9p57YvUlVpojWwgrjEGlNC4EZ/gwNofqjBrQICWn7TTmFUJNYw50UknwoFwZkTwUy2IjXh74goGgX6z4QPz5zBrXyKX4aUmdTh2d/uY4P5+aI881yLwYazbcdoFoeqaeHk6swIBuCDpFjsN8XJ+gEnUPdjykuXDb+pn3bPR0yRmZP0H5gGNX+6tlNoWNuUmaGO7fgFAX8QA5BPpIecC7Xq6MMxge6VMHkNqfe+Fl03VJ8EyxcCfPgnaQUR+8mmTdIHcu6YdFdd/kmQURH3E1FGJ7JapveuT+RnnA0I+kwdte9E/13drCIOfe5J/wjf+l0BKv+Oy0a0bT9vilwG48w7UrjGcxqPi0F8RIvWAVtCqQ5RYxPuUqAV65U6G+mKp0niwEPhMr1v06d9QhWGgZ3LXtx9P5lsEt1y0Ct13uSPzbM0XQmZb/cmnqaG4xRkwwZSipSg=
-  app: nwillc-shields
+  app: repo-redirect
   on:
     repo: nwillc/shields

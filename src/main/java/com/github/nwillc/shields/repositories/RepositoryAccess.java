@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 public class RepositoryAccess {
     private final static Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
-    private final static String SHIELD_URL = "https://img.shields.io/badge/%s-%s-blue.svg?style=flat";
+    private final static String SHIELD_URL = "https://img.shields.io/badge/%s-%s-brightgreen.svg?style=flat";
 
     private final String metadataUrlFormat;
     private final String homeUrlFormat;
