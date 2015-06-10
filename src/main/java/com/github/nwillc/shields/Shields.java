@@ -22,9 +22,9 @@ import org.apache.commons.cli.*;
 
 import java.util.logging.Logger;
 
+import static com.github.nwillc.shields.CommandLineInterface.CLI;
 import static spark.Spark.get;
 import static spark.SparkBase.port;
-import static com.github.nwillc.shields.CommandLineInterface.CLI;
 import static spark.SparkBase.staticFileLocation;
 
 public class Shields {
@@ -36,7 +36,6 @@ public class Shields {
             new Github()};
 
     public static void main(String[] args) {
-
         // Process command line
         Options options = CommandLineInterface.getOptions();
         CommandLineParser commandLineParser = new DefaultParser();
@@ -68,6 +67,4 @@ public class Shields {
             get("/homepage/" + repo.getPath(), repo::getHomepage);
         }
     }
-
-
 }

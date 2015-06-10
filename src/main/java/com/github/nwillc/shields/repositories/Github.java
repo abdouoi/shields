@@ -20,8 +20,6 @@ package com.github.nwillc.shields.repositories;
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
-
 public class Github extends RepositoryAccess {
 
     public static final String HOME_URL_FORMAT = "https://github.com/%s/%s";

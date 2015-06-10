@@ -23,21 +23,31 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public final class XMLUtils {
-
+    private final static Logger LOGGER = Logger.getLogger(XMLUtils.class.getSimpleName());
     private static final String LATEST = "latest";
 
     private XMLUtils() {}
 
-    public static Optional<String> latestVersion(InputStream metadata1) throws XMLStreamException {
-        final XMLStreamReader xmlStreamReader = XMLInputFactory.newFactory().createXMLStreamReader(metadata1);
-        xmlStreamReader.getEventType();
-        while (xmlStreamReader.hasNext()) {
-            final int next = xmlStreamReader.next();
-            if (next == XMLStreamConstants.START_ELEMENT && xmlStreamReader.getLocalName().equalsIgnoreCase(LATEST)) {
-                return Optional.of(xmlStreamReader.getElementText());
+    /**
+     * Given the XML of a maven-metadata.xml file extract the value of the <code>latest</code> element if present.
+     * @param metadata1 input stream to maven-metadata.xml
+     * @return optional value of latest element.
+     */
+    public static Optional<String> latestVersion(InputStream metadata1) {
+        try {
+            final XMLStreamReader xmlStreamReader = XMLInputFactory.newFactory().createXMLStreamReader(metadata1);
+            xmlStreamReader.getEventType();
+            while (xmlStreamReader.hasNext()) {
+                final int next = xmlStreamReader.next();
+                if (next == XMLStreamConstants.START_ELEMENT && xmlStreamReader.getLocalName().equalsIgnoreCase(LATEST)) {
+                    return Optional.of(xmlStreamReader.getElementText());
+                }
             }
+        } catch (XMLStreamException e) {
+            LOGGER.warning("Unable to parse maven-metadata.xml stream: " + e);
         }
         return Optional.empty();
     }

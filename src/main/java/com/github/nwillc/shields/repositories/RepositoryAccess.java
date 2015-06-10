@@ -27,8 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RepositoryAccess {
-    private final static Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
-    private final static String SHIELD_URL = "https://img.shields.io/badge/%s-%s-brightgreen.svg?style=flat";
+    private static final Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
+    private static final String SHIELD_COLOR = "brightgreen";
+    public static final String SHIELD_STYLE = "flat";
+    private static final String SHIELD_URL = "https://img.shields.io/badge/%s-%s-" + SHIELD_COLOR + ".svg?style=" + SHIELD_STYLE;
 
     private final String metadataUrlFormat;
     private final String homeUrlFormat;

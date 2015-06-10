@@ -55,6 +55,10 @@ Currently supported repositories are:
 
 For any of these you can request a shield, which redirects to <a href="http://shields.io">shields.io</a>, or a homepage
 which will redirect to the specified homepage at the repository.
+<p>
+For more info:<br>
+<a href="https://repo-redirect.herokuapp.com/homepage/github?package=shields&path=nwillc"><img src="https://repo-redirect.herokuapp.com/shield/github"></a>
+<br/>
 <H2>API Documentation</H2>
 <table cellpadding="3">
   <tr>
@@ -71,9 +75,9 @@ which will redirect to the specified homepage at the repository.
       <td>
           <table width="100%">
               <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
-              <tr><th align="right">group</th><td>The group name.</td><td>github, gradle_plugin, jcenter, maven_central</td></tr>
+              <tr><th align="right">group</th><td>The group name.</td><td>gradle_plugin, jcenter, maven_central</td></tr>
               <tr><th align="right">package</th><td>The package name.</td><td>github, gradle_plugin, jcenter, maven_central</td></tr>
-              <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>jcenter</td></tr>
+              <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>github, jcenter</td></tr>
           </table>
       </td>
   </tr>
@@ -99,8 +103,7 @@ which will redirect to the specified homepage at the repository.
       <table width="100%">
           <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
         <tr><th align="right">group</th><td>The group name.</td><td>jcenter, maven_central</td></tr>
-        <tr><th align="right">package</th><td>The package name.</td><td>github, jcenter, maven_central</td></tr>
-        <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>github</td></tr>
+        <tr><th align="right">package</th><td>The package name.</td><td>jcenter, maven_central</td></tr>
       </table>
     </td>
   </tr>
