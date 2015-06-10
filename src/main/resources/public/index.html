@@ -1,0 +1,116 @@
+<!--
+  ~ Copyright (c) 2015, nwillc@gmail.com
+  ~
+  ~  Permission to use, copy, modify, and/or distribute this software for any
+  ~  purpose with or without fee is hereby granted, provided that the above
+  ~  copyright notice and this permission notice appear in all copies.
+  ~
+  ~  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  ~  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  ~  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ~  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  ~  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ~  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  ~  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  ~
+  -->
+
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        th {
+            background-color: lightgray;
+            color: black;
+        }
+
+        .blue {
+            background-color: lightskyblue;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<h1>Repo Redirect</h1>
+This simple RESTful service to provide redirects for repository specific shields/badges and homepages.
+
+Currently supported repositories are:
+<ul>
+  <li>Github</li>
+  <li>Gradle Plugins</li>
+  <li>JCenter</li>
+  <li>Maven Central</li>
+</ul>
+
+For any of these you can request a shield, which redirects to <a href="http://shields.io">shields.io</a>, or a homepage
+which will redirect to the specified homepage at the repository.
+<H2>API Documentation</H2>
+<table cellpadding="3">
+  <tr>
+    <th class="blue" colspan="2">Homepage</th>
+  </tr>
+  <tr>
+    <th>URL</th><td>/homepage/[github|gradle_plugin|jcenter|maven_central]?group=&package=&path</td>
+  </tr>
+  <tr>
+    <th>Method</th><td>GET</td>
+  </tr>
+  <tr>
+    <th>Params</th>
+      <td>
+          <table width="100%">
+              <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
+              <tr><th align="right">group</th><td>The group name.</td><td>github, gradle_plugin, jcenter, maven_central</td></tr>
+              <tr><th align="right">package</th><td>The package name.</td><td>github, gradle_plugin, jcenter, maven_central</td></tr>
+              <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>jcenter</td></tr>
+          </table>
+      </td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td><a href="http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional</a></td>
+  </tr>
+  <tr>
+    <th>Success<td>Redirects to the homepage on the repository site for the package specified.</td>
+  </tr>
+  <tr>
+    <th class="blue" colspan="2">Shield</th>
+  </tr>
+  <tr>
+    <th>URL</th><td>/shield/[github|gradle_plugin|jcenter|maven_central]?group=&package=&path</td>
+  </tr>
+  <tr>
+    <th>Method</th><td>GET</td>
+  </tr>
+  <tr>
+    <th>Params</th>
+    <td>
+      <table width="100%">
+          <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
+        <tr><th align="right">group</th><td>The group name.</td><td>jcenter, maven_central</td></tr>
+        <tr><th align="right">package</th><td>The package name.</td><td>github, jcenter, maven_central</td></tr>
+        <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>github</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td><a href="http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional</a></td>
+  </tr>
+  <tr>
+    <th>Success</th><td>Redirects to a shield indicating the repository type, and the latest version if it can be determined.</td>
+  </tr>
+</table>
+</body>
+</html>
