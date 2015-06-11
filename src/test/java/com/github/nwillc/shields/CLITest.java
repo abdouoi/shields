@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, nwillc@gmail.com
+ * CCopyright (c) 2015, nwillc@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
@@ -17,21 +17,17 @@
 
 package com.github.nwillc.shields;
 
-import com.github.nwillc.contracts.UtilityClassContract;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class CommandLineInterfaceTest  extends UtilityClassContract {
-    @Override
-    public Class<?> getClassToTest() {
-        return CommandLineInterface.class;
-    }
+public class CLITest {
+    private String[] expected = {"help", "port"};
 
     @Test
-    public void testAllOptionsSupported() throws Exception {
-        assertThat(CommandLineInterface.getOptions()).isNotNull();
-        assertThat(CommandLineInterface.getOptions().getOptions()).hasSize(CommandLineInterface.CLI.values().length);
+    public void testExpectedOptions() throws Exception {
+        for (String value : expected) {
+            assertThat(CommandLineInterface.CLI.valueOf(value)).isNotNull();
+        }
     }
 }

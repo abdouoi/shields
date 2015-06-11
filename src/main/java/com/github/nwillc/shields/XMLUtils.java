@@ -46,7 +46,7 @@ public final class XMLUtils {
                     return Optional.of(xmlStreamReader.getElementText());
                 }
             }
-        } catch (XMLStreamException e) {
+        } catch (Exception e) {
             LOGGER.warning("Unable to parse maven-metadata.xml stream: " + e);
         }
         return Optional.empty();

@@ -48,4 +48,10 @@ public class XMLUtilsTest extends UtilityClassContract {
         assertThat(latest.isPresent()).isTrue();
         assertThat(latest.get()).isEqualTo(LATEST_1);
     }
+
+    @Test
+    public void testExceptionCase() throws Exception {
+        Optional<String> latest = XMLUtils.latestVersion(null);
+        assertThat(latest.isPresent()).isFalse();
+    }
 }
