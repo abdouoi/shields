@@ -4,6 +4,6 @@ SCRIPT_DIR=$(cd $(dirname ${0}) && pwd -P)
 
 cd ${SCRIPT_DIR}
 
-mvn install -q -DskipTests
+./gradlew -q stage
 
-java -cp target/classes:target/dependency/* com.github.nwillc.shields.Shields $*
+java -cp build/dependency:build/dependency/* com.github.nwillc.shields.Shields $*
