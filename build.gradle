@@ -41,12 +41,21 @@ dependencies {
             'org.mockito:mockito-core:2.0.13-beta'
 }
 
+apply plugin: 'jacoco'
+
 group = "com.github.nwillc"
 archivesBaseName = "shields"
 version = "1.1"
 targetCompatibility = "1.8"
 sourceCompatibility = "1.8"
 
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
 
 test {
     beforeTest { descriptor ->
