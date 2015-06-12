@@ -22,7 +22,7 @@ import spark.Response;
 
 public class Github extends RepositoryAccess {
 
-    public static final String HOME_URL_FORMAT = "https://github.com/%s/%s";
+    private static final String HOME_URL_FORMAT = "https://github.com/%s/%s";
 
     public Github() {
         super(null, HOME_URL_FORMAT);

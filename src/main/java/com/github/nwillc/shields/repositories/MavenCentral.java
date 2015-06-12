@@ -21,7 +21,7 @@ package com.github.nwillc.shields.repositories;
 public class MavenCentral extends RepositoryAccess {
 
     private static final String METADATA_URL_FORMAT = "https://repo1.maven.org/maven2/%s/%s/maven-metadata.xml";
-    public static final String HOME_URL_FORMAT = "http://search.maven.org/#artifactdetails|%s|%s|%s|";
+    private static final String HOME_URL_FORMAT = "http://search.maven.org/#artifactdetails|%s|%s|%s|";
 
     public MavenCentral() {
         super(METADATA_URL_FORMAT, HOME_URL_FORMAT);

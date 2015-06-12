@@ -19,19 +19,46 @@ package com.github.nwillc.shields.repositories;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import spark.Request;
+import spark.Response;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-public class GreadlePluginTest {
+public class GradlePluginTest {
     private RepositoryAccess instance;
+    private Request request;
+    private Response response;
 
     @Before
     public void setUp() throws Exception {
         instance = new GradlePlugin();
+        request = mock(Request.class);
+        response = mock(Response.class);
+        when(request.queryParams("package")).thenReturn("package");
+        when(request.queryParams("group")).thenReturn("group");
     }
 
     @Test
     public void testPath() throws Exception {
         assertThat(instance.getPath()).isEqualTo("gradle_plugin");
+    }
+
+    @Test
+    public void testLatestVersion() throws Exception {
+        assertThat(instance.latestVersion(null,null).get()).isEqualTo("latest");
+    }
+
+    @Test
+    public void testGetHomepage() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        when(spy.getHomeUrlFormat()).thenReturn("%s|%s");
+
+        spy.getHomepage(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("group|package");
     }
 }

@@ -19,15 +19,26 @@ package com.github.nwillc.shields.repositories;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import spark.Request;
+import spark.Response;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class JCenterTest {
     private RepositoryAccess instance;
+    private Request request;
+    private Response response;
 
     @Before
     public void setUp() throws Exception {
         instance = new JCenter();
+        request = mock(Request.class);
+        response = mock(Response.class);
+        when(request.queryParams("path")).thenReturn("path");
     }
 
     @Test
@@ -36,7 +47,15 @@ public class JCenterTest {
     }
 
     @Test
-    public void testGetLatest() throws Exception {
-        assertThat(instance.latestVersion("com/github/nwillc","ToString").get()).isEqualTo("0.2.1");
+    public void testGetHomepage() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        when(spy.getHomeUrlFormat()).thenReturn("%s|%s");
+        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+
+        spy.getHomepage(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("path|1");
     }
 }

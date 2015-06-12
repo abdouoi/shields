@@ -27,8 +27,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class XMLUtilsTest extends UtilityClassContract {
-    static final String LATEST_1 = "1.7.9";
-    static final String MAVEN_METADATA1_XML = "maven-metadata1.xml";
+    private static final String LATEST_1 = "1.7.9";
+    private static final String MAVEN_METADATA1_XML = "maven-metadata1.xml";
     private InputStream metadata1;
 
     @Before

@@ -19,15 +19,51 @@ package com.github.nwillc.shields.repositories;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import spark.Request;
+import spark.Response;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class GithubTest {
     private RepositoryAccess instance;
+    private Request request;
+    private Response response;
+
 
     @Before
     public void setUp() throws Exception {
         instance = new Github();
+        request = mock(Request.class);
+        response = mock(Response.class);
+        when(request.queryParams("package")).thenReturn("package");
+        when(request.queryParams("path")).thenReturn("path");
+    }
+
+    @Test
+    public void testGetShield() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        when(spy.getShieldUrl()).thenReturn("%s|%s");
+        when(spy.getPath()).thenReturn("dummy");
+
+        spy.getShield(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("dummy|latest");
+    }
+
+    @Test
+    public void testGetHomepage() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        when(spy.getHomeUrlFormat()).thenReturn("%s|%s");
+
+        spy.getHomepage(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("path|package");
     }
 
     @Test

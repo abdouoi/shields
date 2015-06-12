@@ -19,20 +19,32 @@ package com.github.nwillc.shields.repositories;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import spark.Request;
+import spark.Response;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 
 public class RepositoryAccessTest {
     private static final String METADATA_URL_FORMAT = "%s/%s";
     private static final String HOME_URL_FORMAT = "%s|%s|%s";
     private RepositoryAccess instance;
+    private Request request;
+    private Response response;
+
 
     @Before
     public void setUp() throws Exception {
         instance = new Dummy();
+        request = mock(Request.class);
+        response = mock(Response.class);
+        when(request.queryParams("group")).thenReturn("group");
+        when(request.queryParams("package")).thenReturn("package");
+        when(request.queryParams("path")).thenReturn("path");
     }
 
     @Test
@@ -47,19 +59,22 @@ public class RepositoryAccessTest {
 
     @Test
     public void testGetHomeUrl() throws Exception {
-        Optional<String> url = instance.getHomepageUrl("foo", "bar", "1");
-        assertThat(url).isNotNull();
-        assertThat(url.isPresent()).isTrue();
-        assertThat(url.get()).isEqualTo("foo|bar|1");
-
+        String url = instance.getHomepageUrl("foo", "bar", "1");
+        assertThat(url).isEqualTo("foo|bar|1");
     }
 
     @Test
     public void testMetadataUrl() throws Exception {
-        Optional<String> url = instance.getMetadatUrl("foo", "bar");
+        String url = instance.getMetadatUrl("foo", "bar");
+        assertThat(url).isEqualTo("foo/bar");
+    }
+
+    @Test
+    public void testGetShieldUrl() throws Exception {
+        String url = instance.getShieldUrl();
         assertThat(url).isNotNull();
-        assertThat(url.isPresent()).isTrue();
-        assertThat(url.get()).isEqualTo("foo/bar");
+        assertThat(url).contains(RepositoryAccess.SHIELD_COLOR);
+        assertThat(url).contains(RepositoryAccess.SHIELD_STYLE);
     }
 
     @Test
@@ -67,19 +82,54 @@ public class RepositoryAccessTest {
         assertThat(instance.getPath()).isEqualTo("dummy");
     }
 
+    @Test
+    public void testGetShield() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        when(spy.getShieldUrl()).thenReturn("%s|%s");
+        when(spy.getPath()).thenReturn("dummy");
+        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+
+        spy.getShield(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("dummy|1");
+    }
+
+    @Test
+    public void testGetHomepage() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+
+        spy.getHomepage(request, response);
+
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        verify(response).redirect(argument.capture());
+        assertThat(argument.getValue()).isEqualTo("group|package|1");
+    }
+
+    @Test
+    public void testLatestVersionArgs() throws Exception {
+        RepositoryAccess.RequestArgs args = new RepositoryAccess.RequestArgs(request);
+        RepositoryAccess spy = spy(instance);
+        doReturn(Optional.of("2")).when(spy).latestVersion(args.groupName.get(), args.packageName.get());
+
+        assertThat(spy.latestVersion(args).get()).isEqualTo("2");
+    }
+
+    @Test
+    public void testLatestVersionException() throws Exception {
+        RepositoryAccess spy = spy(instance);
+        doReturn(null).when(spy).getMetadatUrl(any(), any());
+
+        Optional<String> latest = spy.latestVersion(null,null);
+        assertThat(latest).isNotNull();
+        assertThat(latest.isPresent()).isFalse();
+    }
+
     private static class Dummy extends RepositoryAccess {
         public Dummy() {
             super(METADATA_URL_FORMAT, HOME_URL_FORMAT);
-        }
-
-        @Override
-        public Optional<String> getMetadatUrl(String groupName, String packageName) {
-            return Optional.of(String.format(METADATA_URL_FORMAT, groupName, packageName));
-        }
-
-        @Override
-        public Optional<String> getHomepageUrl(String groupName, String packageName, String version) {
-            return Optional.of(String.format(HOME_URL_FORMAT, groupName, packageName, version));
         }
     }
 }

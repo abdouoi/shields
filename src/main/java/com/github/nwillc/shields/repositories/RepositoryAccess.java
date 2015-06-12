@@ -27,9 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RepositoryAccess {
-    private static final Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
-    private static final String SHIELD_COLOR = "brightgreen";
+    public static final String SHIELD_COLOR = "brightgreen";
     public static final String SHIELD_STYLE = "flat";
+
+    private static final Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
     private static final String SHIELD_URL = "https://img.shields.io/badge/%s-%s-" + SHIELD_COLOR + ".svg?style=" + SHIELD_STYLE;
 
     private final String metadataUrlFormat;
@@ -54,16 +55,16 @@ public class RepositoryAccess {
     public Response getHomepage(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
         Optional<String> latestVersion  = latestVersion(args);
-        response.redirect(getHomepageUrl(args.groupName.get(),  args.packageName.get(), latestVersion.get()).get());
+        response.redirect(getHomepageUrl(args.groupName.get(), args.packageName.get(), latestVersion.get()));
         return response;
     }
 
-    Optional<String> getMetadatUrl(String groupName, String packageName) {
-        return Optional.of(String.format(getMetadataUrlFormat(), groupName, packageName));
+    String getMetadatUrl(String groupName, String packageName) {
+        return String.format(getMetadataUrlFormat(), groupName, packageName);
     }
 
-    Optional<String> getHomepageUrl(String groupName, String packageName, String version) {
-        return Optional.of(String.format(getHomeUrlFormat(), groupName, packageName, version));
+    String getHomepageUrl(String groupName, String packageName, String version) {
+        return String.format(getHomeUrlFormat(), groupName, packageName, version);
     }
 
     String getShieldUrl() {
@@ -86,16 +87,12 @@ public class RepositoryAccess {
     }
 
     Optional<String> latestVersion(String groupName, String packageName) {
-        Optional<String> metadatUrl = getMetadatUrl(groupName, packageName);
-        if (!metadatUrl.isPresent()) {
-            LOGGER.info("Metatdata not present for " + groupName + " " + packageName);
-            return Optional.empty();
-        }
+        String metadatUrl = getMetadatUrl(groupName, packageName);
         try {
-            URL url = new URL(metadatUrl.get());
+            URL url = new URL(metadatUrl);
             return XMLUtils.latestVersion(url.openStream());
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl.get() + ": " + e);
+            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl + ": " + e);
         }
         return Optional.empty();
     }

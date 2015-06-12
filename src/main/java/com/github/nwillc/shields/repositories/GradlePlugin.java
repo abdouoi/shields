@@ -24,7 +24,7 @@ import java.util.Optional;
 
 public class GradlePlugin extends RepositoryAccess {
 
-    public static final String HOME_URL_FORMAT = "https://plugins.gradle.org/plugin/%s.%s";
+    private static final String HOME_URL_FORMAT = "https://plugins.gradle.org/plugin/%s.%s";
 
     public GradlePlugin() {
         super(null, HOME_URL_FORMAT);
