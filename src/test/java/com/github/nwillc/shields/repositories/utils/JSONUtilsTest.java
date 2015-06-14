@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, nwillc@gmail.com
+ * CCopyright (c) 2015, nwillc@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.nwillc.shields;
+package com.github.nwillc.shields.repositories.utils;
 
 import com.github.nwillc.contracts.UtilityClassContract;
 import org.junit.Before;
@@ -26,32 +26,26 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class XMLUtilsTest extends UtilityClassContract {
-    private static final String LATEST_1 = "1.7.9";
-    private static final String MAVEN_METADATA1_XML = "maven-metadata1.xml";
-    private InputStream metadata1;
-
-    @Before
-    public void setUp() throws Exception {
-        metadata1 = ClassLoader.getSystemResourceAsStream(MAVEN_METADATA1_XML);
-        assertThat(metadata1).isNotNull();
-    }
+public class JSONUtilsTest extends UtilityClassContract {
+    private static final String CODECOV_JSON = "codecov.json";
+    private static final String COVERAGE = "74.56";
+    private InputStream inputStream;
 
     @Override
     public Class<?> getClassToTest() {
-        return XMLUtils.class;
+        return JSONUtils.class;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        inputStream = ClassLoader.getSystemResourceAsStream(CODECOV_JSON);
     }
 
     @Test
-    public void testLatest1() throws Exception {
-        Optional<String> latest = XMLUtils.latestVersion(metadata1);
-        assertThat(latest.isPresent()).isTrue();
-        assertThat(latest.get()).isEqualTo(LATEST_1);
-    }
-
-    @Test
-    public void testExceptionCase() throws Exception {
-        Optional<String> latest = XMLUtils.latestVersion(null);
-        assertThat(latest.isPresent()).isFalse();
+    public void testLatestCoverage() throws Exception {
+        Optional<String> stringOptional = JSONUtils.latestCoverage(inputStream);
+        assertThat(stringOptional).isNotNull();
+        assertThat(stringOptional.isPresent()).isTrue();
+        assertThat(stringOptional.get()).isEqualTo(COVERAGE);
     }
 }

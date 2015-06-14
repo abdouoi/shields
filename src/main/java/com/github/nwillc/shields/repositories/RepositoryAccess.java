@@ -17,7 +17,7 @@
 
 package com.github.nwillc.shields.repositories;
 
-import com.github.nwillc.shields.XMLUtils;
+import com.github.nwillc.shields.repositories.utils.XMLUtils;
 import spark.Request;
 import spark.Response;
 

@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.nwillc.shields;
+package com.github.nwillc.shields.repositories.utils;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
