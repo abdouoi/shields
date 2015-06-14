@@ -5,9 +5,10 @@ jdk:
 env:
   - TERM=dumb
 before_install:
-  sudo pip install codecov
+  - sudo pip install codecov
 after_success:
-  codecov
+  - ./gradlew jacocoTestReport
+  - codecov
 deploy:
   provider: heroku
   api_key:
