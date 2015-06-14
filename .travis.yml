@@ -3,8 +3,10 @@ jdk:
   - oraclejdk8
 env:
   - TERM=dumb
+before_install:
+  pip install codecov
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+  codecov
 deploy:
   provider: heroku
   api_key:
