@@ -23,6 +23,11 @@ import org.mockito.ArgumentCaptor;
 import spark.Request;
 import spark.Response;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -122,9 +127,21 @@ public class RepositoryAccessTest {
         RepositoryAccess spy = spy(instance);
         doReturn(null).when(spy).getMetadatUrl(any(), any());
 
-        Optional<String> latest = spy.latestVersion(null,null);
+        Optional<String> latest = spy.latestVersion(null, null);
         assertThat(latest).isNotNull();
         assertThat(latest.isPresent()).isFalse();
+    }
+
+    @Test
+    public void testLatestVersionRequestResponse() throws Exception {
+        File file = new File("src/test/resources/maven-metadata1.xml");
+
+        RepositoryAccess spy = spy(instance);
+        doReturn(file.toURI().toString()).when(spy).getMetadatUrl(any(), any());
+        Optional<String> latest = spy.latestVersion(null, null);
+        assertThat(latest).isNotNull();
+        assertThat(latest.isPresent()).isTrue();
+        assertThat(latest.get()).isEqualTo("1.7.9");
     }
 
     private static class Dummy extends RepositoryAccess {
