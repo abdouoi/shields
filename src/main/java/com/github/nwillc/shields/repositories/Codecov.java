@@ -18,7 +18,6 @@
 package com.github.nwillc.shields.repositories;
 
 import com.github.nwillc.shields.repositories.utils.JSONUtils;
-import com.github.nwillc.shields.repositories.utils.XMLUtils;
 
 import java.net.URL;
 import java.util.Optional;
