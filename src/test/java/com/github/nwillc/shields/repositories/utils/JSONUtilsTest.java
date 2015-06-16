@@ -48,4 +48,11 @@ public class JSONUtilsTest extends UtilityClassContract {
         assertThat(stringOptional.isPresent()).isTrue();
         assertThat(stringOptional.get()).isEqualTo(COVERAGE);
     }
+
+    @Test
+    public void testLatestCoverageWithException() throws Exception {
+        Optional<String> stringOptional = JSONUtils.latestCodecovCoverage(null);
+        assertThat(stringOptional).isNotNull();
+        assertThat(stringOptional.isPresent()).isFalse();
+    }
 }
