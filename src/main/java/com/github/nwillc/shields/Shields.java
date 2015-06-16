@@ -33,7 +33,8 @@ public class Shields {
             new JCenter(),
             new MavenCentral(),
             new GradlePlugin(),
-            new Github()};
+            new Github(),
+            new Codecov()};
 
     public static void main(String[] args) {
         // Process command line

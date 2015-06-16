@@ -109,7 +109,7 @@ public class RepositoryAccess {
             groupName = Optional.ofNullable(request.queryParams(Args.GROUP.name().toLowerCase()));
             packageName = Optional.ofNullable(request.queryParams(Args.PACKAGE.name().toLowerCase()));
             path = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
-            token = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
+            token = Optional.ofNullable(request.queryParams(Args.TOKEN.name().toLowerCase()));
         }
     }
 }
