@@ -46,11 +46,6 @@ public class GradlePluginTest {
     }
 
     @Test
-    public void testLatestVersion() throws Exception {
-        assertThat(instance.latestVersion(null,null).get()).isEqualTo("latest");
-    }
-
-    @Test
     public void testGetHomepage() throws Exception {
         RepositoryAccess spy = spy(instance);
         when(spy.getHomeUrlFormat()).thenReturn("%s|%s");

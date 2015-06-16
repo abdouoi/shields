@@ -54,17 +54,30 @@ public class RepositoryAccess {
 
     public Response getHomepage(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = latestVersion(args);
-        response.redirect(getHomepageUrl(args.groupName.get(), args.packageName.get(), latestVersion.get()));
+
+        response.redirect(getHomepageUrl(args));
         return response;
     }
 
-    String getMetadatUrl(String groupName, String packageName) {
-        return String.format(getMetadataUrlFormat(), groupName, packageName);
+    String getMetadatUrl(RequestArgs args) {
+        return String.format(getMetadataUrlFormat(), args.groupName.get(), args.packageName.get());
     }
 
-    String getHomepageUrl(String groupName, String packageName, String version) {
-        return String.format(getHomeUrlFormat(), groupName, packageName, version);
+    String getHomepageUrl(RequestArgs args) {
+        Optional<String> latestVersion  = latestVersion(args);
+        return String.format(getHomeUrlFormat(), args.groupName.get(), args.packageName.get(), latestVersion.get());
+    }
+
+    Optional<String> latestVersion(RequestArgs args) {
+        LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
+        String metadatUrl = getMetadatUrl(args);
+        try {
+            URL url = new URL(metadatUrl);
+            return XMLUtils.latestVersion(url.openStream());
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl + ": " + e);
+        }
+        return Optional.empty();
     }
 
     String getShieldUrl() {
@@ -79,38 +92,24 @@ public class RepositoryAccess {
         return homeUrlFormat;
     }
 
-    Optional<String> latestVersion(RequestArgs args) {
-        LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
-        Optional<String> latestVersion = latestVersion(args.groupName.get().replace('.', '/'), args.packageName.get());
-        LOGGER.info("Got latest " + latestVersion.orElse("unknown"));
-        return latestVersion;
-    }
-
-    Optional<String> latestVersion(String groupName, String packageName) {
-        String metadatUrl = getMetadatUrl(groupName, packageName);
-        try {
-            URL url = new URL(metadatUrl);
-            return XMLUtils.latestVersion(url.openStream());
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl + ": " + e);
-        }
-        return Optional.empty();
-    }
-
+    // TODO: switch this to an EnumMap?
     static class RequestArgs {
         enum Args {
             GROUP,
             PACKAGE,
-            PATH
+            PATH,
+            TOKEN
         }
         final Optional<String> groupName;
         final Optional<String> packageName;
         final Optional<String> path;
+        final Optional<String> token;
 
         public RequestArgs(Request request) {
             groupName = Optional.ofNullable(request.queryParams(Args.GROUP.name().toLowerCase()));
             packageName = Optional.ofNullable(request.queryParams(Args.PACKAGE.name().toLowerCase()));
             path = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
+            token = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
         }
     }
 }

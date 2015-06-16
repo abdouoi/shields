@@ -31,7 +31,7 @@ public final class JSONUtils {
 
     private JSONUtils() {}
 
-    public static Optional<String> latestCoverage(InputStream metadata1) {
+    public static Optional<String> latestCodecovCoverage(InputStream metadata1) {
         try (InputStreamReader inputStreamReader = new InputStreamReader(metadata1)) {
             final JSONObject data = (JSONObject)JSONValue.parse(inputStreamReader);
             return Optional.ofNullable(data.containsKey(COVERAGE) ? data.get(COVERAGE).toString() : null);

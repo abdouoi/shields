@@ -23,7 +23,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArgsTest {
-    private String[] args = {"GROUP", "PACKAGE", "PATH"};
+    private String[] args = {"GROUP", "PACKAGE", "PATH", "TOKEN"};
 
     @Test
     public void testValues() throws Exception {

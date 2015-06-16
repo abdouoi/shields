@@ -20,8 +20,6 @@ package com.github.nwillc.shields.repositories;
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
-
 public class GradlePlugin extends RepositoryAccess {
 
     private static final String HOME_URL_FORMAT = "https://plugins.gradle.org/plugin/%s.%s";
@@ -33,11 +31,6 @@ public class GradlePlugin extends RepositoryAccess {
     @Override
     public String getPath() {
         return "gradle_plugin";
-    }
-
-    @Override
-    Optional<String> latestVersion(String groupName, String packageName) {
-        return Optional.of("latest");
     }
 
     @Override

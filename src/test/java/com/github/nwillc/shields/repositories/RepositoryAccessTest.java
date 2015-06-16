@@ -24,10 +24,7 @@ import spark.Request;
 import spark.Response;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +37,7 @@ public class RepositoryAccessTest {
     private RepositoryAccess instance;
     private Request request;
     private Response response;
-
+    private RepositoryAccess.RequestArgs args;
 
     @Before
     public void setUp() throws Exception {
@@ -50,6 +47,7 @@ public class RepositoryAccessTest {
         when(request.queryParams("group")).thenReturn("group");
         when(request.queryParams("package")).thenReturn("package");
         when(request.queryParams("path")).thenReturn("path");
+        args = new RepositoryAccess.RequestArgs(request);
     }
 
     @Test
@@ -58,20 +56,13 @@ public class RepositoryAccessTest {
     }
 
     @Test
+    public void testMetadataUrl() throws Exception {
+        assertThat(instance.getMetadatUrl(args)).isEqualTo("group/package");
+    }
+
+    @Test
     public void testGetHomeUrlFormat() throws Exception {
         assertThat(instance.getHomeUrlFormat()).isEqualTo(HOME_URL_FORMAT);
-    }
-
-    @Test
-    public void testGetHomeUrl() throws Exception {
-        String url = instance.getHomepageUrl("foo", "bar", "1");
-        assertThat(url).isEqualTo("foo|bar|1");
-    }
-
-    @Test
-    public void testMetadataUrl() throws Exception {
-        String url = instance.getMetadatUrl("foo", "bar");
-        assertThat(url).isEqualTo("foo/bar");
     }
 
     @Test
@@ -115,33 +106,24 @@ public class RepositoryAccessTest {
 
     @Test
     public void testLatestVersionArgs() throws Exception {
-        RepositoryAccess.RequestArgs args = new RepositoryAccess.RequestArgs(request);
         RepositoryAccess spy = spy(instance);
-        doReturn(Optional.of("2")).when(spy).latestVersion(args.groupName.get(), args.packageName.get());
-
-        assertThat(spy.latestVersion(args).get()).isEqualTo("2");
-    }
-
-    @Test
-    public void testLatestVersionException() throws Exception {
-        RepositoryAccess spy = spy(instance);
-        doReturn(null).when(spy).getMetadatUrl(any(), any());
-
-        Optional<String> latest = spy.latestVersion(null, null);
-        assertThat(latest).isNotNull();
-        assertThat(latest.isPresent()).isFalse();
-    }
-
-    @Test
-    public void testLatestVersionRequestResponse() throws Exception {
         File file = new File("src/test/resources/maven-metadata1.xml");
+        doReturn(file.toURI().toString()).when(spy).getMetadatUrl(any());
 
+        Optional<String> stringOptional = spy.latestVersion(args);
+        assertThat(stringOptional).isNotNull();
+        assertThat(stringOptional.isPresent()).isTrue();
+        assertThat(stringOptional.get()).isEqualTo("1.7.9");
+    }
+
+    @Test
+    public void testLatestVersionArgsException() throws Exception {
         RepositoryAccess spy = spy(instance);
-        doReturn(file.toURI().toString()).when(spy).getMetadatUrl(any(), any());
-        Optional<String> latest = spy.latestVersion(null, null);
-        assertThat(latest).isNotNull();
-        assertThat(latest.isPresent()).isTrue();
-        assertThat(latest.get()).isEqualTo("1.7.9");
+        doReturn(null).when(spy).getMetadatUrl(any());
+
+        Optional<String> stringOptional = spy.latestVersion(args);
+        assertThat(stringOptional).isNotNull();
+        assertThat(stringOptional.isPresent()).isFalse();
     }
 
     private static class Dummy extends RepositoryAccess {
