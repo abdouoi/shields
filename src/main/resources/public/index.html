@@ -47,73 +47,119 @@ This simple RESTful service to provide redirects for repository specific shields
 
 Currently supported repositories are:
 <ul>
-  <li>Github</li>
-  <li>Gradle Plugins</li>
-  <li>JCenter</li>
-  <li>Maven Central</li>
+    <li>codecov</li>
+    <li>Github</li>
+    <li>Gradle Plugins</li>
+    <li>JCenter</li>
+    <li>Maven Central</li>
 </ul>
 
-For any of these you can request a shield, which redirects to <a href="http://shields.io">shields.io</a>, or a homepage
-which will redirect to the specified homepage at the repository.
+For any of these you can request a <code>shield</code>, which redirects to <a href="http://shields.io">shields.io</a> or
+the repos own shield url, or a <code>homepage</code> which will redirect to the specified homepage at the repository.
 <p>
-For more info:<br>
-<a href="https://repo-redirect.herokuapp.com/homepage/github?package=shields&path=nwillc"><img src="https://repo-redirect.herokuapp.com/shield/github"></a>
-<br/>
+    For more info:<br>
+    <a href="https://repo-redirect.herokuapp.com/homepage/github?package=shields&path=nwillc"><img
+            src="https://repo-redirect.herokuapp.com/shield/github"></a>
+    <br/>
+
 <H2>API Documentation</H2>
 <table cellpadding="3">
-  <tr>
-    <th class="blue" colspan="2">Homepage</th>
-  </tr>
-  <tr>
-    <th>URL</th><td>/homepage/[github|gradle_plugin|jcenter|maven_central]?group=&package=&path</td>
-  </tr>
-  <tr>
-    <th>Method</th><td>GET</td>
-  </tr>
-  <tr>
-    <th>Params</th>
-      <td>
-          <table width="100%">
-              <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
-              <tr><th align="right">group</th><td>The group name.</td><td>gradle_plugin, jcenter, maven_central</td></tr>
-              <tr><th align="right">package</th><td>The package name.</td><td>github, gradle_plugin, jcenter, maven_central</td></tr>
-              <tr><th align="right">path</th><td>The path to the repo, minus package name.</td><td>github, jcenter</td></tr>
-          </table>
-      </td>
-  </tr>
-  <tr>
-    <th>Example</th>
-    <td><a href="http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional</a></td>
-  </tr>
-  <tr>
-    <th>Success<td>Redirects to the homepage on the repository site for the package specified.</td>
-  </tr>
-  <tr>
-    <th class="blue" colspan="2">Shield</th>
-  </tr>
-  <tr>
-    <th>URL</th><td>/shield/[github|gradle_plugin|jcenter|maven_central]?group=&package=&path</td>
-  </tr>
-  <tr>
-    <th>Method</th><td>GET</td>
-  </tr>
-  <tr>
-    <th>Params</th>
-    <td>
-      <table width="100%">
-          <tr><th class="blue">Param</th><th class="blue">Description</th><th class="blue">Required By</th></tr>
-        <tr><th align="right">group</th><td>The group name.</td><td>jcenter, maven_central</td></tr>
-        <tr><th align="right">package</th><td>The package name.</td><td>jcenter, maven_central</td></tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <th>Example</th>
-    <td><a href="http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional</a></td>
-  </tr>
-  <tr>
-    <th>Success</th><td>Redirects to a shield indicating the repository type, and the latest version if it can be determined.</td>
-  </tr>
+    <tr>
+        <th class="blue" colspan="2">Homepage</th>
+    </tr>
+    <tr>
+        <th>URL</th>
+        <td>/homepage/[codecov|github|gradle_plugin|jcenter|maven_central]</td>
+    </tr>
+    <tr>
+        <th>Method</th>
+        <td>GET</td>
+    </tr>
+    <tr>
+        <th>Params</th>
+        <td>
+            <table width="100%">
+                <tr>
+                    <th class="blue">Param</th>
+                    <th class="blue">Description</th>
+                    <th class="blue">Required By</th>
+                </tr>
+                <tr>
+                    <th align="right">group</th>
+                    <td>The group name.</td>
+                    <td>gradle_plugin, jcenter, maven_central</td>
+                </tr>
+                <tr>
+                    <th align="right">package</th>
+                    <td>The package name.</td>
+                    <td>codecov, github, gradle_plugin, jcenter, maven_central</td>
+                </tr>
+                <tr>
+                    <th align="right">path</th>
+                    <td>The path to the repo, minus package name.</td>
+                    <td>codecov, github, jcenter</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <th>Example</th>
+        <td>
+            <a href="http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/homepage/maven_central?group=com.github.nwillc&package=almost-functional</a>
+        </td>
+    </tr>
+    <tr>
+        <th>Success
+        <td>Redirects to the homepage on the repository site for the package specified.</td>
+    </tr>
+    <tr>
+        <th class="blue" colspan="2">Shield</th>
+    </tr>
+    <tr>
+        <th>URL</th>
+        <td>/shield/[codecov|github|gradle_plugin|jcenter|maven_central]</td>
+    </tr>
+    <tr>
+        <th>Method</th>
+        <td>GET</td>
+    </tr>
+    <tr>
+        <th>Params</th>
+        <td>
+            <table width="100%">
+                <tr>
+                    <th class="blue">Param</th>
+                    <th class="blue">Description</th>
+                    <th class="blue">Required By</th>
+                </tr>
+                <tr>
+                    <th align="right">group</th>
+                    <td>The group name.</td>
+                    <td>jcenter, maven_central</td>
+                </tr>
+                <tr>
+                    <th align="right">package</th>
+                    <td>The package name.</td>
+                    <td>jcenter, maven_central</td>
+                </tr>
+                <tr>
+                    <th align="right">path</th>
+                    <td>The path to the repo, minus package name.</td>
+                    <td>codecov</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <th>Example</th>
+        <td>
+            <a href="http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional">http://repo-redirect.herokuapp.com/shield/maven_central?group=com.github.nwillc&package=almost-functional</a>
+        </td>
+    </tr>
+    <tr>
+        <th>Success</th>
+        <td>Redirects to a shield indicating the repository type, and the latest version if it can be determined.</td>
+    </tr>
 </table>
 </body>
 </html>
