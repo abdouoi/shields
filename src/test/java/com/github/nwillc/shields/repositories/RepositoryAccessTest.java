@@ -24,7 +24,6 @@ import spark.Request;
 import spark.Response;
 
 import java.io.File;
-import java.net.URL;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,12 +56,12 @@ public class RepositoryAccessTest {
 
     @Test
     public void testMetadataUrl() throws Exception {
-        assertThat(instance.getMetadatUrl(args)).isEqualTo("group/package");
+        assertThat(instance.getMetadataUrl(args)).isEqualTo("group/package");
     }
 
     @Test
     public void testGetHomeUrlFormat() throws Exception {
-        assertThat(instance.getHomeUrlFormat()).isEqualTo(HOME_URL_FORMAT);
+        assertThat(instance.getHomepageUrlFormat()).isEqualTo(HOME_URL_FORMAT);
     }
 
     @Test
@@ -83,7 +82,7 @@ public class RepositoryAccessTest {
         RepositoryAccess spy = spy(instance);
         when(spy.getShieldUrl()).thenReturn("%s|%s");
         when(spy.getPath()).thenReturn("dummy");
-        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+        doReturn(Optional.of("1")).when(spy).lookupValue(any());
 
         spy.getShield(request, response);
 
@@ -95,7 +94,7 @@ public class RepositoryAccessTest {
     @Test
     public void testGetHomepage() throws Exception {
         RepositoryAccess spy = spy(instance);
-        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+        doReturn(Optional.of("1")).when(spy).lookupValue(any());
 
         spy.getHomepage(request, response);
 
@@ -108,9 +107,9 @@ public class RepositoryAccessTest {
     public void testLatestVersionArgs() throws Exception {
         RepositoryAccess spy = spy(instance);
         File file = new File("src/test/resources/maven-metadata1.xml");
-        doReturn(file.toURI().toString()).when(spy).getMetadatUrl(any());
+        doReturn(file.toURI().toString()).when(spy).getMetadataUrl(any());
 
-        Optional<String> stringOptional = spy.latestVersion(args);
+        Optional<String> stringOptional = spy.lookupValue(args);
         assertThat(stringOptional).isNotNull();
         assertThat(stringOptional.isPresent()).isTrue();
         assertThat(stringOptional.get()).isEqualTo("1.7.9");
@@ -119,9 +118,9 @@ public class RepositoryAccessTest {
     @Test
     public void testLatestVersionArgsException() throws Exception {
         RepositoryAccess spy = spy(instance);
-        doReturn(null).when(spy).getMetadatUrl(any());
+        doReturn(null).when(spy).getMetadataUrl(any());
 
-        Optional<String> stringOptional = spy.latestVersion(args);
+        Optional<String> stringOptional = spy.lookupValue(args);
         assertThat(stringOptional).isNotNull();
         assertThat(stringOptional.isPresent()).isFalse();
     }

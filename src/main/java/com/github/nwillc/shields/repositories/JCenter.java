@@ -33,8 +33,8 @@ public class JCenter extends RepositoryAccess {
     @Override
     public Response getHomepage(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = latestVersion(args);
-        response.redirect(String.format(getHomeUrlFormat(), args.path.get(), latestVersion.get()));
+        Optional<String> latestVersion  = lookupValue(args);
+        response.redirect(String.format(getHomepageUrlFormat(), args.path.get(), latestVersion.get()));
         return response;
     }
 }

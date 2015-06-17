@@ -57,7 +57,7 @@ public class GithubTest {
     @Test
     public void testGetHomepage() throws Exception {
         RepositoryAccess spy = spy(instance);
-        when(spy.getHomeUrlFormat()).thenReturn("%s|%s");
+        when(spy.getHomepageUrlFormat()).thenReturn("%s|%s");
 
         spy.getHomepage(request, response);
 

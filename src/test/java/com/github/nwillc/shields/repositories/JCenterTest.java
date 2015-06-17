@@ -49,8 +49,8 @@ public class JCenterTest {
     @Test
     public void testGetHomepage() throws Exception {
         RepositoryAccess spy = spy(instance);
-        when(spy.getHomeUrlFormat()).thenReturn("%s|%s");
-        doReturn(Optional.of("1")).when(spy).latestVersion(any());
+        when(spy.getHomepageUrlFormat()).thenReturn("%s|%s");
+        doReturn(Optional.of("1")).when(spy).lookupValue(any());
 
         spy.getHomepage(request, response);
 

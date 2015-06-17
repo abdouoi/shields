@@ -35,17 +35,17 @@ public class Codecov extends RepositoryAccess {
 
     @Override
     String getHomepageUrl(RequestArgs args) {
-        return String.format(getHomeUrlFormat(), args.path.get(), args.packageName.get());
+        return String.format(getHomepageUrlFormat(), args.path.get(), args.packageName.get());
     }
 
     @Override
-    String getMetadatUrl(RequestArgs args) {
+    String getMetadataUrl(RequestArgs args) {
         return String.format(getMetadataUrlFormat(), args.path.get(), args.packageName.get(), args.token.get());
     }
 
     @Override
-    Optional<String> latestVersion(RequestArgs args) {
-        String metadatUrl = getMetadatUrl(args);
+    Optional<String> lookupValue(RequestArgs args) {
+        String metadatUrl = getMetadataUrl(args);
         try {
             URL url = new URL(metadatUrl);
             return JSONUtils.latestCodecovCoverage(url.openStream());

@@ -47,7 +47,7 @@ public class RepositoryAccess {
 
     public Response getShield(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = latestVersion(args);
+        Optional<String> latestVersion  = lookupValue(args);
         response.redirect(String.format(getShieldUrl(), getPath(), latestVersion.get()));
         return response;
     }
@@ -59,18 +59,18 @@ public class RepositoryAccess {
         return response;
     }
 
-    String getMetadatUrl(RequestArgs args) {
+    String getMetadataUrl(RequestArgs args) {
         return String.format(getMetadataUrlFormat(), args.groupName.get(), args.packageName.get());
     }
 
     String getHomepageUrl(RequestArgs args) {
-        Optional<String> latestVersion  = latestVersion(args);
-        return String.format(getHomeUrlFormat(), args.groupName.get(), args.packageName.get(), latestVersion.get());
+        Optional<String> latestVersion  = lookupValue(args);
+        return String.format(getHomepageUrlFormat(), args.groupName.get(), args.packageName.get(), latestVersion.get());
     }
 
-    Optional<String> latestVersion(RequestArgs args) {
+    Optional<String> lookupValue(RequestArgs args) {
         LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
-        String metadatUrl = getMetadatUrl(args);
+        String metadatUrl = getMetadataUrl(args);
         try {
             URL url = new URL(metadatUrl);
             return XMLUtils.latestVersion(url.openStream());
@@ -88,7 +88,7 @@ public class RepositoryAccess {
         return metadataUrlFormat;
     }
 
-    String getHomeUrlFormat() {
+    String getHomepageUrlFormat() {
         return homeUrlFormat;
     }
 
