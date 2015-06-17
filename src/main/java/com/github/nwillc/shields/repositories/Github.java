@@ -30,7 +30,7 @@ public class Github extends RepositoryAccess {
 
     @Override
     public Response getShield(Request request, Response response) {
-        response.redirect(String.format(getShieldUrl(), getPath(), "latest"));
+        response.redirect(String.format(getShieldUrlFormat(), getPath(), "latest"));
         return response;
     }
 

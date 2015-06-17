@@ -47,25 +47,40 @@ public class RepositoryAccess {
 
     public Response getShield(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = lookupValue(args);
-        response.redirect(String.format(getShieldUrl(), getPath(), latestVersion.get()));
+        response.redirect(getShieldUrl(args));
         return response;
     }
 
     public Response getHomepage(Request request, Response response) {
         RequestArgs args = new RequestArgs(request);
-
         response.redirect(getHomepageUrl(args));
         return response;
+    }
+
+    String getMetadataUrlFormat() {
+        return metadataUrlFormat;
     }
 
     String getMetadataUrl(RequestArgs args) {
         return String.format(getMetadataUrlFormat(), args.groupName.get(), args.packageName.get());
     }
 
+    String getHomepageUrlFormat() {
+        return homeUrlFormat;
+    }
+
     String getHomepageUrl(RequestArgs args) {
         Optional<String> latestVersion  = lookupValue(args);
         return String.format(getHomepageUrlFormat(), args.groupName.get(), args.packageName.get(), latestVersion.get());
+    }
+
+    String getShieldUrlFormat() {
+        return SHIELD_URL;
+    }
+
+    String getShieldUrl(RequestArgs args) {
+        Optional<String> latestVersion  = lookupValue(args);
+        return String.format(getShieldUrlFormat(), getPath(), latestVersion.get());
     }
 
     Optional<String> lookupValue(RequestArgs args) {
@@ -80,36 +95,26 @@ public class RepositoryAccess {
         return Optional.empty();
     }
 
-    String getShieldUrl() {
-        return SHIELD_URL;
-    }
 
-    String getMetadataUrlFormat() {
-        return metadataUrlFormat;
-    }
 
-    String getHomepageUrlFormat() {
-        return homeUrlFormat;
-    }
+
+
 
     // TODO: switch this to an EnumMap?
     static class RequestArgs {
         enum Args {
             GROUP,
             PACKAGE,
-            PATH,
-            TOKEN
+            PATH
         }
         final Optional<String> groupName;
         final Optional<String> packageName;
         final Optional<String> path;
-        final Optional<String> token;
 
         public RequestArgs(Request request) {
             groupName = Optional.ofNullable(request.queryParams(Args.GROUP.name().toLowerCase()));
             packageName = Optional.ofNullable(request.queryParams(Args.PACKAGE.name().toLowerCase()));
             path = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
-            token = Optional.ofNullable(request.queryParams(Args.TOKEN.name().toLowerCase()));
         }
     }
 }

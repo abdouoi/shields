@@ -17,20 +17,12 @@
 
 package com.github.nwillc.shields.repositories;
 
-import com.github.nwillc.shields.repositories.utils.JSONUtils;
-
-import java.net.URL;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Codecov extends RepositoryAccess {
-    private static final Logger LOGGER = Logger.getLogger(Codecov.class.getSimpleName());
-    public static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s";
-    public static final String METADATA_URL_FORMAT = HOMEPAGE_URL_FORMAT + "?access_token=%s";
+    public static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s?branch=master";
+    public static final String SHIELD_URL_FORMAT = "http://codecov.io/%s/%s/coverage.svg?branch=master";
 
     public Codecov() {
-        super(METADATA_URL_FORMAT, HOMEPAGE_URL_FORMAT);
+        super(null, HOMEPAGE_URL_FORMAT);
     }
 
     @Override
@@ -39,19 +31,12 @@ public class Codecov extends RepositoryAccess {
     }
 
     @Override
-    String getMetadataUrl(RequestArgs args) {
-        return String.format(getMetadataUrlFormat(), args.path.get(), args.packageName.get(), args.token.get());
+    String getShieldUrlFormat() {
+        return SHIELD_URL_FORMAT;
     }
 
     @Override
-    Optional<String> lookupValue(RequestArgs args) {
-        String metadatUrl = getMetadataUrl(args);
-        try {
-            URL url = new URL(metadatUrl);
-            return JSONUtils.latestCodecovCoverage(url.openStream());
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl + ": " + e);
-        }
-        return Optional.empty();
+    String getShieldUrl(RequestArgs args) {
+        return String.format(getShieldUrlFormat(), args.path.get(), args.packageName.get());
     }
 }

@@ -19,4 +19,4 @@ Shields is built using gradle, and provides a run script:
 -----
 [![ISC License](https://img.shields.io/badge/license-ISC-brightgreen.svg?style=flat)](https://tldrlegal.com/license/-isc-license)
 [![Build Status](https://travis-ci.org/nwillc/shields.svg?branch=master)](https://travis-ci.org/nwillc/shields)
-[![Coverage Status](https://coveralls.io/repos/nwillc/shields/badge.svg)](https://coveralls.io/r/nwillc/shields)
+[![Coverage Status](http://repo-redirect.herokuapp.com/shield/codecov?path=github/nwillc&package=shields)](http://repo-redirect.herokuapp.com/homepage/codecov?path=github/nwillc&package=shields)

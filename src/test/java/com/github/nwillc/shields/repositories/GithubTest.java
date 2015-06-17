@@ -44,7 +44,7 @@ public class GithubTest {
     @Test
     public void testGetShield() throws Exception {
         RepositoryAccess spy = spy(instance);
-        when(spy.getShieldUrl()).thenReturn("%s|%s");
+        when(spy.getShieldUrlFormat()).thenReturn("%s|%s");
         when(spy.getPath()).thenReturn("dummy");
 
         spy.getShield(request, response);

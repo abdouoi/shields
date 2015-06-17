@@ -53,10 +53,10 @@ public class CodecovTest {
     }
 
     @Test
-    public void testGetMetadataUrl() throws Exception {
+    public void testGetShield() throws Exception {
         RepositoryAccess spy = spy(instance);
-        when(spy.getMetadataUrlFormat()).thenReturn("%s|%s|%s");
-        assertThat(spy.getMetadataUrl(args)).isEqualTo("path|package|token");
+        when(spy.getShieldUrlFormat()).thenReturn("%s|%s");
+        assertThat(spy.getShieldUrl(args)).isEqualTo("path|package");
     }
 
     @Test
@@ -76,27 +76,5 @@ public class CodecovTest {
         ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
         verify(response).redirect(argument.capture());
         assertThat(argument.getValue()).isEqualTo("path|package");
-    }
-
-    @Test
-    public void testLookupValue() throws Exception {
-        RepositoryAccess spy = spy(instance);
-        File file = new File("src/test/resources/codecov.json");
-        doReturn(file.toURI().toString()).when(spy).getMetadataUrl(any());
-
-        Optional<String> stringOptional = spy.lookupValue(args);
-        assertThat(stringOptional).isNotNull();
-        assertThat(stringOptional.isPresent()).isTrue();
-        assertThat(stringOptional.get()).isEqualTo("74.56");
-    }
-
-    @Test
-    public void testLookupValueException() throws Exception {
-        RepositoryAccess spy = spy(instance);
-        doReturn(null).when(spy).getMetadataUrl(any());
-
-        Optional<String> stringOptional = spy.lookupValue(args);
-        assertThat(stringOptional).isNotNull();
-        assertThat(stringOptional.isPresent()).isFalse();
     }
 }

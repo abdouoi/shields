@@ -66,7 +66,7 @@ public class RepositoryAccessTest {
 
     @Test
     public void testGetShieldUrl() throws Exception {
-        String url = instance.getShieldUrl();
+        String url = instance.getShieldUrlFormat();
         assertThat(url).isNotNull();
         assertThat(url).contains(RepositoryAccess.SHIELD_COLOR);
         assertThat(url).contains(RepositoryAccess.SHIELD_STYLE);
@@ -80,7 +80,7 @@ public class RepositoryAccessTest {
     @Test
     public void testGetShield() throws Exception {
         RepositoryAccess spy = spy(instance);
-        when(spy.getShieldUrl()).thenReturn("%s|%s");
+        when(spy.getShieldUrlFormat()).thenReturn("%s|%s");
         when(spy.getPath()).thenReturn("dummy");
         doReturn(Optional.of("1")).when(spy).lookupValue(any());
 
