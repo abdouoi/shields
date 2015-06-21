@@ -18,7 +18,6 @@
 package com.github.nwillc.shields.repositories.utils;
 
 import com.github.nwillc.contracts.UtilityClassContract;
-import com.github.nwillc.shields.repositories.utils.XMLUtils;
 import org.junit.Before;
 import org.junit.Test;
 

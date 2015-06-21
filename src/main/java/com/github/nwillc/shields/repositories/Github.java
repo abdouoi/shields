@@ -20,6 +20,9 @@ package com.github.nwillc.shields.repositories;
 import spark.Request;
 import spark.Response;
 
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
+
 public class Github extends RepositoryAccess {
 
     private static final String HOME_URL_FORMAT = "https://github.com/%s/%s";
@@ -36,8 +39,9 @@ public class Github extends RepositoryAccess {
 
     @Override
     public Response getHomepage(Request request, Response response) {
-        RequestArgs args = new RequestArgs(request);
-        response.redirect(String.format(getHomepageUrlFormat(), args.path.get(), args.packageName.get()));
+        RequestParams params = new RequestParams(request);
+        params.contains(PATH, PACKAGE);
+        response.redirect(String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE)));
         return response;
     }
 }

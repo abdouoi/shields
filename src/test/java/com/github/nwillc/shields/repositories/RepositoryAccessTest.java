@@ -36,7 +36,7 @@ public class RepositoryAccessTest {
     private RepositoryAccess instance;
     private Request request;
     private Response response;
-    private RepositoryAccess.RequestArgs args;
+    private RequestParams params;
 
     @Before
     public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class RepositoryAccessTest {
         when(request.queryParams("group")).thenReturn("group");
         when(request.queryParams("package")).thenReturn("package");
         when(request.queryParams("path")).thenReturn("path");
-        args = new RepositoryAccess.RequestArgs(request);
+        params = new RequestParams(request);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RepositoryAccessTest {
 
     @Test
     public void testMetadataUrl() throws Exception {
-        assertThat(instance.getMetadataUrl(args)).isEqualTo("group/package");
+        assertThat(instance.getMetadataUrl(params)).isEqualTo("group/package");
     }
 
     @Test
@@ -109,7 +109,7 @@ public class RepositoryAccessTest {
         File file = new File("src/test/resources/maven-metadata1.xml");
         doReturn(file.toURI().toString()).when(spy).getMetadataUrl(any());
 
-        Optional<String> stringOptional = spy.lookupValue(args);
+        Optional<String> stringOptional = spy.lookupValue(params);
         assertThat(stringOptional).isNotNull();
         assertThat(stringOptional.isPresent()).isTrue();
         assertThat(stringOptional.get()).isEqualTo("1.7.9");
@@ -120,7 +120,7 @@ public class RepositoryAccessTest {
         RepositoryAccess spy = spy(instance);
         doReturn(null).when(spy).getMetadataUrl(any());
 
-        Optional<String> stringOptional = spy.lookupValue(args);
+        Optional<String> stringOptional = spy.lookupValue(params);
         assertThat(stringOptional).isNotNull();
         assertThat(stringOptional.isPresent()).isFalse();
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, nwillc@gmail.com
+ * CCopyright (c) 2015, nwillc@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
@@ -17,30 +17,37 @@
 
 package com.github.nwillc.shields.repositories;
 
+import com.github.nwillc.shields.MissingParamException;
 import spark.Request;
-import spark.Response;
 
-import static com.github.nwillc.shields.repositories.RequestParams.Key.GROUP;
-import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
+import java.util.EnumMap;
+import java.util.stream.Stream;
 
-public class GradlePlugin extends RepositoryAccess {
-
-    private static final String HOME_URL_FORMAT = "https://plugins.gradle.org/plugin/%s.%s";
-
-    public GradlePlugin() {
-        super(null, HOME_URL_FORMAT);
+public class RequestParams {
+    public enum Key {
+        GROUP,
+        PACKAGE,
+        PATH
     }
 
-    @Override
-    public String getPath() {
-        return "gradle_plugin";
+    final private EnumMap<Key, String> params = new EnumMap<>(Key.class);
+
+    public RequestParams(Request request) {
+       for (Key key : Key.values()) {
+           final String value = request.queryParams(key.name().toLowerCase());
+           if (value != null) {
+               params.put(key, value);
+           }
+       }
     }
 
-    @Override
-    public Response getHomepage(Request request, Response response) {
-        RequestParams params = new RequestParams(request);
-        params.contains(GROUP, PACKAGE);
-        response.redirect(String.format(getHomepageUrlFormat(), params.get(GROUP), params.get(PACKAGE)));
-        return response;
+    public String get(Key key){
+        return params.get(key);
+    }
+
+    public void contains(Key ... keys) throws MissingParamException {
+       if (!Stream.of(keys).allMatch(params::containsKey)) {
+           throw new MissingParamException(keys);
+       }
     }
 }

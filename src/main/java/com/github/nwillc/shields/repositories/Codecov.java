@@ -17,6 +17,9 @@
 
 package com.github.nwillc.shields.repositories;
 
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
+
 public class Codecov extends RepositoryAccess {
     public static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s?branch=master";
     public static final String SHIELD_URL_FORMAT = "http://codecov.io/%s/%s/coverage.svg?branch=master";
@@ -26,8 +29,9 @@ public class Codecov extends RepositoryAccess {
     }
 
     @Override
-    String getHomepageUrl(RequestArgs args) {
-        return String.format(getHomepageUrlFormat(), args.path.get(), args.packageName.get());
+    String getHomepageUrl(RequestParams params) {
+        params.contains(PATH, PACKAGE);
+        return String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
 
     @Override
@@ -36,7 +40,8 @@ public class Codecov extends RepositoryAccess {
     }
 
     @Override
-    String getShieldUrl(RequestArgs args) {
-        return String.format(getShieldUrlFormat(), args.path.get(), args.packageName.get());
+    String getShieldUrl(RequestParams params) {
+        params.contains(PATH, PACKAGE);
+        return String.format(getShieldUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
 }

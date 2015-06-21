@@ -22,6 +22,8 @@ import spark.Response;
 
 import java.util.Optional;
 
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
+
 public class JCenter extends RepositoryAccess {
     private static final String METADATA_URL_FORMAT = "https://jcenter.bintray.com/%s/%s/maven-metadata.xml";
     private static final String HOME_URL_FORMAT = "https://bintray.com/%s/%s/view";
@@ -32,9 +34,10 @@ public class JCenter extends RepositoryAccess {
 
     @Override
     public Response getHomepage(Request request, Response response) {
-        RequestArgs args = new RequestArgs(request);
-        Optional<String> latestVersion  = lookupValue(args);
-        response.redirect(String.format(getHomepageUrlFormat(), args.path.get(), latestVersion.get()));
+        RequestParams params = new RequestParams(request);
+        params.contains(PATH);
+        Optional<String> latestVersion  = lookupValue(params);
+        response.redirect(String.format(getHomepageUrlFormat(), params.get(PATH), latestVersion.get()));
         return response;
     }
 }

@@ -23,18 +23,14 @@ import org.mockito.ArgumentCaptor;
 import spark.Request;
 import spark.Response;
 
-import java.io.File;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
 
 public class CodecovTest {
     private RepositoryAccess instance;
     private Request request;
     private Response response;
-    private RepositoryAccess.RequestArgs args;
+    private RequestParams params;
 
     @Before
     public void setUp() throws Exception {
@@ -44,7 +40,7 @@ public class CodecovTest {
         when(request.queryParams("package")).thenReturn("package");
         when(request.queryParams("path")).thenReturn("path");
         when(request.queryParams("token")).thenReturn("token");
-        args = new RepositoryAccess.RequestArgs(request);
+        params = new RequestParams(request);
     }
 
     @Test
@@ -56,14 +52,14 @@ public class CodecovTest {
     public void testGetShield() throws Exception {
         RepositoryAccess spy = spy(instance);
         when(spy.getShieldUrlFormat()).thenReturn("%s|%s");
-        assertThat(spy.getShieldUrl(args)).isEqualTo("path|package");
+        assertThat(spy.getShieldUrl(params)).isEqualTo("path|package");
     }
 
     @Test
     public void testGetHomepageUrl() throws Exception {
         RepositoryAccess spy = spy(instance);
         when(spy.getHomepageUrlFormat()).thenReturn("%s|%s");
-        assertThat(spy.getHomepageUrl(args)).isEqualTo("path|package");
+        assertThat(spy.getHomepageUrl(params)).isEqualTo("path|package");
     }
 
     @Test

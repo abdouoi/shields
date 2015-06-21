@@ -26,6 +26,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.github.nwillc.shields.repositories.RequestParams.Key.GROUP;
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
+
 public class RepositoryAccess {
     public static final String SHIELD_COLOR = "brightgreen";
     public static final String SHIELD_STYLE = "flat";
@@ -45,15 +48,15 @@ public class RepositoryAccess {
         return this.getClass().getSimpleName().toLowerCase();
     }
 
-    public Response getShield(Request request, Response response) {
-        RequestArgs args = new RequestArgs(request);
-        response.redirect(getShieldUrl(args));
+    public Response getShield(Request request, Response response) throws Exception {
+        RequestParams params = new RequestParams(request);
+        response.redirect(getShieldUrl(params));
         return response;
     }
 
-    public Response getHomepage(Request request, Response response) {
-        RequestArgs args = new RequestArgs(request);
-        response.redirect(getHomepageUrl(args));
+    public Response getHomepage(Request request, Response response) throws Exception {
+        RequestParams params = new RequestParams(request);
+        response.redirect(getHomepageUrl(params));
         return response;
     }
 
@@ -61,31 +64,32 @@ public class RepositoryAccess {
         return metadataUrlFormat;
     }
 
-    String getMetadataUrl(RequestArgs args) {
-        return String.format(getMetadataUrlFormat(), args.groupName.get(), args.packageName.get());
+    String getMetadataUrl(RequestParams params) {
+        params.contains(GROUP, PACKAGE);
+        return String.format(getMetadataUrlFormat(), params.get(GROUP), params.get(PACKAGE));
     }
 
     String getHomepageUrlFormat() {
         return homeUrlFormat;
     }
 
-    String getHomepageUrl(RequestArgs args) {
-        Optional<String> latestVersion  = lookupValue(args);
-        return String.format(getHomepageUrlFormat(), args.groupName.get(), args.packageName.get(), latestVersion.get());
+    String getHomepageUrl(RequestParams params) {
+        params.contains(GROUP, PACKAGE);
+        Optional<String> latestVersion  = lookupValue(params);
+        return String.format(getHomepageUrlFormat(), params.get(GROUP), params.get(PACKAGE), latestVersion.get());
     }
 
     String getShieldUrlFormat() {
         return SHIELD_URL;
     }
 
-    String getShieldUrl(RequestArgs args) {
-        Optional<String> latestVersion  = lookupValue(args);
+    String getShieldUrl(RequestParams params) {
+        Optional<String> latestVersion  = lookupValue(params);
         return String.format(getShieldUrlFormat(), getPath(), latestVersion.get());
     }
 
-    Optional<String> lookupValue(RequestArgs args) {
-        LOGGER.info("Get latest for group " + args.groupName.get() + " package " + args.packageName.get());
-        String metadatUrl = getMetadataUrl(args);
+    Optional<String> lookupValue(RequestParams params) {
+        String metadatUrl = getMetadataUrl(params);
         try {
             URL url = new URL(metadatUrl);
             return XMLUtils.latestVersion(url.openStream());
@@ -95,26 +99,4 @@ public class RepositoryAccess {
         return Optional.empty();
     }
 
-
-
-
-
-
-    // TODO: switch this to an EnumMap?
-    static class RequestArgs {
-        enum Args {
-            GROUP,
-            PACKAGE,
-            PATH
-        }
-        final Optional<String> groupName;
-        final Optional<String> packageName;
-        final Optional<String> path;
-
-        public RequestArgs(Request request) {
-            groupName = Optional.ofNullable(request.queryParams(Args.GROUP.name().toLowerCase()));
-            packageName = Optional.ofNullable(request.queryParams(Args.PACKAGE.name().toLowerCase()));
-            path = Optional.ofNullable(request.queryParams(Args.PATH.name().toLowerCase()));
-        }
-    }
 }

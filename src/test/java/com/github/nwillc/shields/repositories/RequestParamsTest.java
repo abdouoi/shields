@@ -17,15 +17,17 @@
 
 package com.github.nwillc.shields.repositories;
 
+import com.github.nwillc.shields.MissingParamException;
 import org.junit.Test;
 import spark.Request;
 
+import static com.github.nwillc.shields.repositories.RequestParams.Key.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static com.github.nwillc.shields.repositories.RepositoryAccess.RequestArgs.Args.*;
 
-public class RequestArgsTest {
+public class RequestParamsTest {
 
     @Test
     public void testConstructor() throws Exception {
@@ -34,24 +36,22 @@ public class RequestArgsTest {
         when(request.queryParams(PACKAGE.name().toLowerCase())).thenReturn("bar");
         when(request.queryParams(PATH.name().toLowerCase())).thenReturn("baz");
 
-        RepositoryAccess.RequestArgs args = new RepositoryAccess.RequestArgs(request);
+        RequestParams params = new RequestParams(request);
 
-        assertThat(args.groupName.get()).isEqualTo("foo");
-        assertThat(args.packageName.get()).isEqualTo("bar");
-        assertThat(args.path.get()).isEqualTo("baz");
+        assertThat(params.get(GROUP)).isEqualTo("foo");
+        assertThat(params.get(PACKAGE)).isEqualTo("bar");
+        assertThat(params.get(PATH)).isEqualTo("baz");
     }
 
     @Test
-    public void testEmpty() throws Exception {
+    public void testMissingParameter() throws Exception {
         Request request = mock(Request.class);
-        when(request.queryParams(GROUP.name().toLowerCase())).thenReturn("foo");
-        when(request.queryParams(PACKAGE.name().toLowerCase())).thenReturn("bar");
-        when(request.queryParams(PATH.name().toLowerCase())).thenReturn(null);
-
-        RepositoryAccess.RequestArgs args = new RepositoryAccess.RequestArgs(request);
-
-        assertThat(args.groupName.get()).isEqualTo("foo");
-        assertThat(args.packageName.get()).isEqualTo("bar");
-        assertThat(args.path.isPresent()).isFalse();
+        RequestParams params = new RequestParams(request);
+        try {
+            params.contains(PATH);
+            failBecauseExceptionWasNotThrown(MissingParamException.class);
+        } catch (MissingParamException p) {
+            assertThat(p.getMessage()).contains("path");
+        }
     }
 }

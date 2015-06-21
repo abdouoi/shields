@@ -15,22 +15,23 @@
  *
  */
 
-package com.github.nwillc.shields.repositories;
+package com.github.nwillc.shields;
 
+import com.github.nwillc.shields.repositories.RequestParams;
 
-import org.junit.Test;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public class MissingParamException extends RuntimeException {
+    private final RequestParams.Key[] keys;
 
-public class ArgsTest {
-    private String[] args = {"GROUP", "PACKAGE", "PATH"};
+    public MissingParamException(RequestParams.Key ... keys) {
+        this.keys = keys;
+    }
 
-    @Test
-    public void testValues() throws Exception {
-        assertThat(RequestParams.Key.values()).hasSize(args.length);
-
-        for (String arg : args) {
-            assertThat(RequestParams.Key.valueOf(arg)).isNotNull();
-        }
+    @Override
+    public String getMessage() {
+        return String.format("Missing on of the required parameters: %s\n",
+                Stream.of(keys).map(k -> k.name().toLowerCase()).collect(Collectors.joining(", ")));
     }
 }

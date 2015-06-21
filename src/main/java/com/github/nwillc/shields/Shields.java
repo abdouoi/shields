@@ -23,6 +23,7 @@ import org.apache.commons.cli.*;
 import java.util.logging.Logger;
 
 import static com.github.nwillc.shields.CommandLineInterface.CLI;
+import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
@@ -61,6 +62,13 @@ public class Shields {
         // Static files
         staticFileLocation("/public");
 
+        // Exception Handler
+        exception(MissingParamException.class, (e, req, res) -> {
+            LOGGER.info("Invalid request: " + e.getMessage());
+            res.status(404);
+            res.body(e.getMessage());
+        });
+
         // Setup routes
         get("/ping", (request, response) -> "PONG");
         for (RepositoryAccess repo : REPOS) {
@@ -68,4 +76,6 @@ public class Shields {
             get("/homepage/" + repo.getPath(), repo::getHomepage);
         }
     }
+
+
 }
