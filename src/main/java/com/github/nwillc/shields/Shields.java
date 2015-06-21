@@ -62,9 +62,9 @@ public class Shields {
         // Static files
         staticFileLocation("/public");
 
-        // Exception Handler
+        // Exception Handler for missing parameters
         exception(MissingParamException.class, (e, req, res) -> {
-            LOGGER.info("Invalid request: " + e.getMessage());
+            LOGGER.info(String.format("Invalid request %s from %s: %s", req.url(), req.ip(), e.getMessage()));
             res.status(404);
             res.body(e.getMessage());
         });
@@ -76,6 +76,4 @@ public class Shields {
             get("/homepage/" + repo.getPath(), repo::getHomepage);
         }
     }
-
-
 }

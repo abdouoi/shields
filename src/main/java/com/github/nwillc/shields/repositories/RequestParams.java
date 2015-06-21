@@ -23,7 +23,14 @@ import spark.Request;
 import java.util.EnumMap;
 import java.util.stream.Stream;
 
+/**
+ * Support for the query params supported by this service.
+ */
 public class RequestParams {
+
+    /**
+     * An enumeration of the parameters supported.
+     */
     public enum Key {
         GROUP,
         PACKAGE,
@@ -32,6 +39,10 @@ public class RequestParams {
 
     final private EnumMap<Key, String> params = new EnumMap<>(Key.class);
 
+    /**
+     * Create and instance of Request params based on a request. Extracts the available supported parameters.
+     * @param request to pull params from
+     */
     public RequestParams(Request request) {
        for (Key key : Key.values()) {
            final String value = request.queryParams(key.name().toLowerCase());
@@ -41,10 +52,20 @@ public class RequestParams {
        }
     }
 
+    /**
+     * Get the value of specified key.
+     * @param key the parameter to get
+     * @return the parameter value, or null if not present
+     */
     public String get(Key key){
         return params.get(key);
     }
 
+    /**
+     * Assert that this instance contains a specified set of parameters.
+     * @param keys the parameters that must be present
+     * @throws MissingParamException if any of the parameters are missing
+     */
     public void contains(Key ... keys) throws MissingParamException {
        if (!Stream.of(keys).allMatch(params::containsKey)) {
            throw new MissingParamException(keys);

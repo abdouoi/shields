@@ -66,7 +66,7 @@ public class RepositoryAccess {
 
     String getMetadataUrl(RequestParams params) {
         params.contains(GROUP, PACKAGE);
-        return String.format(getMetadataUrlFormat(), params.get(GROUP), params.get(PACKAGE));
+        return String.format(getMetadataUrlFormat(), params.get(GROUP).replace('.','/'), params.get(PACKAGE));
     }
 
     String getHomepageUrlFormat() {

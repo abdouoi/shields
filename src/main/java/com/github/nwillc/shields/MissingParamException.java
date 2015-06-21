@@ -22,6 +22,9 @@ import com.github.nwillc.shields.repositories.RequestParams;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Runtime exception thrown when an expected parameter of a request is missing.
+ */
 public class MissingParamException extends RuntimeException {
     private final RequestParams.Key[] keys;
 
