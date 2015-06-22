@@ -1,5 +1,5 @@
 /*
- * CCopyright (c) 2015, nwillc@gmail.com
+ * Copyright (c) 2015, nwillc@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software for any
  *  purpose with or without fee is hereby granted, provided that the above
@@ -19,7 +19,6 @@ package com.github.nwillc.shields;
 
 import com.github.nwillc.shields.repositories.RequestParams;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -34,7 +33,7 @@ public class MissingParamException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return String.format("Missing on of the required parameters: %s\n",
-                Stream.of(keys).map(k -> k.name().toLowerCase()).collect(Collectors.joining(", ")));
+        return String.format("Missing one of the required parameters: %s\n",
+                Stream.of(keys).map(k -> k.name().toLowerCase()).reduce("", (f,s) -> f + ',' +  s));
     }
 }
