@@ -17,26 +17,18 @@
 
 package com.github.nwillc.shields;
 
-import com.github.nwillc.shields.repositories.*;
 import org.apache.commons.cli.*;
 
 import java.util.logging.Logger;
 
 import static com.github.nwillc.shields.CommandLineInterface.CLI;
-import static spark.Spark.exception;
-import static spark.Spark.get;
 import static spark.SparkBase.port;
-import static spark.SparkBase.staticFileLocation;
 
 public class Shields {
     private final static Logger LOGGER = Logger.getLogger(Shields.class.getSimpleName());
-    private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{
-            new JCenter(),
-            new MavenCentral(),
-            new GradlePlugin(),
-            new Github(),
-            new Codecov()};
+    private final static ShieldsApplication application = new ShieldsApplication();
 
+    // Run the app with embedded Jetty
     public static void main(String[] args) {
         // Process command line
         Options options = CommandLineInterface.getOptions();
@@ -59,21 +51,7 @@ public class Shields {
             CommandLineInterface.help(options, 1);
         }
 
-        // Static files
-        staticFileLocation("/public");
-
-        // Exception Handler for missing parameters
-        exception(MissingParamException.class, (e, req, res) -> {
-            LOGGER.info(String.format("Invalid request %s from %s: %s", req.url(), req.ip(), e.getMessage()));
-            res.status(404);
-            res.body(e.getMessage());
-        });
-
-        // Setup routes
-        get("/ping", (request, response) -> "PONG");
-        for (RepositoryAccess repo : REPOS) {
-            get("/shield/" + repo.getPath(), repo::getShield);
-            get("/homepage/" + repo.getPath(), repo::getHomepage);
-        }
+        // Initialize the app
+        application.init();
     }
 }
