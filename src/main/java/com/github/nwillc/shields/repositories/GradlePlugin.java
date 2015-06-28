@@ -20,6 +20,8 @@ package com.github.nwillc.shields.repositories;
 import spark.Request;
 import spark.Response;
 
+import java.util.Optional;
+
 import static com.github.nwillc.shields.repositories.RequestParams.Key.GROUP;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 
@@ -34,6 +36,11 @@ public class GradlePlugin extends RepositoryAccess {
     @Override
     public String getPath() {
         return "gradle_plugin";
+    }
+
+    @Override
+    Optional<String> lookupValue(RequestParams params) {
+        return Optional.of("latest");
     }
 
     @Override

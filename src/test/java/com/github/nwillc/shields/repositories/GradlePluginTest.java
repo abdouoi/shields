@@ -23,6 +23,8 @@ import org.mockito.ArgumentCaptor;
 import spark.Request;
 import spark.Response;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +45,16 @@ public class GradlePluginTest {
     @Test
     public void testPath() throws Exception {
         assertThat(instance.getPath()).isEqualTo("gradle_plugin");
+    }
+
+    @Test
+    public void testLookupValue() throws Exception {
+        RequestParams requestParams = mock(RequestParams.class);
+
+        Optional<String> value = instance.lookupValue(requestParams);
+        assertThat(value).isNotNull();
+        assertThat(value.isPresent()).isTrue();
+        assertThat(value.get()).isEqualTo("latest");
     }
 
     @Test
