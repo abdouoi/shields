@@ -28,6 +28,7 @@ public final class CommandLineInterface {
     private CommandLineInterface() {}
 
     enum CLI {
+        address,
         help,
         port
     }
@@ -47,7 +48,14 @@ public final class CommandLineInterface {
         option.setRequired(false);
         options.addOption(option);
 
-        option = new Option(CLI.port.name().substring(0, 1), CLI.port.name(), true, "Port number to listen to.");
+        option = new Option(CLI.address.name().substring(0, 1), CLI.address.name(), true, "IP address to listen on.");
+        option.setArgName("address");
+        option.setArgs(1);
+        option.setType(String.class);
+        option.setRequired(false);
+        options.addOption(option);
+
+        option = new Option(CLI.port.name().substring(0, 1), CLI.port.name(), true, "Port number to listen on.");
         option.setArgName("port_no");
         option.setArgs(1);
         option.setType(Integer.class);

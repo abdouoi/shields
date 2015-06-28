@@ -22,7 +22,12 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CLITest {
-    private final String[] expected = {"help", "port"};
+    private final String[] expected = {"address", "help", "port"};
+
+    @Test
+    public void testOptionCount() throws Exception {
+        assertThat(CommandLineInterface.CLI.values()).hasSameSizeAs(expected);
+    }
 
     @Test
     public void testExpectedOptions() throws Exception {

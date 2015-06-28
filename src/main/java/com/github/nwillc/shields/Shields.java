@@ -22,6 +22,7 @@ import org.apache.commons.cli.*;
 import java.util.logging.Logger;
 
 import static com.github.nwillc.shields.CommandLineInterface.CLI;
+import static spark.SparkBase.ipAddress;
 import static spark.SparkBase.port;
 
 public class Shields {
@@ -44,6 +45,11 @@ public class Shields {
             if (commandLine.hasOption(CLI.port.name())) {
                 LOGGER.info("Configuring port: " + commandLine.getOptionValue(CLI.port.name()));
                 port(Integer.parseInt(commandLine.getOptionValue(CLI.port.name())));
+            }
+
+            if (commandLine.hasOption(CLI.address.name())) {
+                LOGGER.info("Configuring address: " + commandLine.getOptionValue(CLI.address.name()));
+                ipAddress(commandLine.getOptionValue(CLI.address.name()));
             }
 
         } catch (ParseException e) {

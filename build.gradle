@@ -22,7 +22,6 @@ buildscript {
 }
 
 plugins {
-    id "war"
     id "java"
     id "com.github.nwillc.vplugin" version "1.2.1"
 }
@@ -48,7 +47,6 @@ archivesBaseName = "shields"
 version = "1.1"
 targetCompatibility = "1.8"
 sourceCompatibility = "1.8"
-war.archiveName = "ROOT.war"
 
 jacocoTestReport {
     reports {
@@ -81,7 +79,3 @@ task stage(type: Copy) {
 }
 
 stage.dependsOn build
-
-war {
-    webXml = file('src/web.xml') // copies a file to WEB-INF/web.xml
-}
