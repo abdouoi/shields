@@ -8,5 +8,4 @@ export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
 export PATH=${JAVA_HOME}/bin
 
 cd $OPENSHIFT_REPO_DIR
-java -jar diy/todoapp-1.0-SNAPSHOT.jar &
 java -cp dependency:dependency/* com.github.nwillc.shields.Shields -a ${OPENSHIFT_DIY_IP} -p 8080 &
