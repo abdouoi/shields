@@ -6,4 +6,4 @@ cd ${SCRIPT_DIR}
 
 ./gradlew -q stage
 
-java -cp build/dependency:build/dependency/* com.github.nwillc.shields.Shields $*
+java -cp build/staging:build/staging/* com.github.nwillc.shields.Shields $*
