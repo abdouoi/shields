@@ -76,7 +76,7 @@ test {
 
 task stage(type: Copy) {
     from sourceSets.main.runtimeClasspath
-    into 'build/dependency'
+    into 'build/staging'
 }
 
 stage.dependsOn build
