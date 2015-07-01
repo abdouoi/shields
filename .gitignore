@@ -3,3 +3,14 @@ shields.iml
 target
 build
 .gradle
+.settings
+.idea
+*.iml
+target/
+/diy/
+target
+.settings/*
+!.settings/.jsdtscope
+.project
+.classpath
+
