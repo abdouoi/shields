@@ -5,7 +5,7 @@ jdk:
 env:
   - TERM=dumb
 before_install:
-  - pip install codecov
+  - sudo pip install codecov
 after_success:
   - ./gradlew jacocoTestReport
   - codecov
