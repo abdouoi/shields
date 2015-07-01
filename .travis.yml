@@ -4,9 +4,10 @@ jdk:
 env:
   - TERM=dumb
 before_install:
-  - pip install --user codecov
+  - pip install codecov
 after_success:
   - ./gradlew jacocoTestReport
+  - codecov
 deploy:
   provider: openshift
   user: nwillc@gmail.com
