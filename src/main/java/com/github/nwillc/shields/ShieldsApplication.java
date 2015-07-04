@@ -26,7 +26,7 @@ import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.SparkBase.staticFileLocation;
 
-public class ShieldsApplication implements SparkApplication {
+class ShieldsApplication implements SparkApplication {
     private final static Logger LOGGER = Logger.getLogger(ShieldsApplication.class.getSimpleName());
     private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{
             new Codecov(),

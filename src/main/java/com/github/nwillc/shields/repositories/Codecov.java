@@ -21,14 +21,14 @@ import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
 
 public class Codecov extends RepositoryAccess {
-    public static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s?branch=master";
-    public static final String SHIELD_URL_FORMAT = "http://codecov.io/%s/%s/coverage.svg?branch=master";
+    private static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s?branch=master";
+    private static final String SHIELD_URL_FORMAT = "http://codecov.io/%s/%s/coverage.svg?branch=master";
 
     public Codecov() {
         super(null, HOMEPAGE_URL_FORMAT);
     }
 
-    public Codecov(String metadataUrlFormat, String homeUrlFormat) {
+    Codecov(String metadataUrlFormat, String homeUrlFormat) {
         super(metadataUrlFormat, homeUrlFormat);
     }
 
