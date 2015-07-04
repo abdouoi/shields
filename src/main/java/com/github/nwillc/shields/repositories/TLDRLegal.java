@@ -17,23 +17,24 @@
 
 package com.github.nwillc.shields.repositories;
 
-import java.util.Optional;
+import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 
-import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
+public class TLDRLegal extends RepositoryAccess {
+    private static final String HOMEPAGE_URL_FORMAT = "https://tldrlegal.com/l/%s";
 
-public class JCenter extends RepositoryAccess {
-    private static final String METADATA_URL_FORMAT = "https://jcenter.bintray.com/%s/%s/maven-metadata.xml";
-    private static final String HOME_URL_FORMAT = "https://bintray.com/%s/%s/view";
+    public TLDRLegal() {
+        super(null, HOMEPAGE_URL_FORMAT);
+    }
 
-    public JCenter() {
-        super(METADATA_URL_FORMAT, HOME_URL_FORMAT);
+    @Override
+    String getShieldUrl(RequestParams params) {
+        params.contains(RequestParams.Key.PACKAGE);
+        return String.format(getShieldUrlFormat(), "License", params.get(RequestParams.Key.PACKAGE));
     }
 
     @Override
     String getHomepageUrl(RequestParams params) {
-        params.contains(PATH);
-        Optional<String> latestVersion  = lookupValue(params);
-        return String.format(getHomepageUrlFormat(), params.get(PATH), latestVersion.get());
+        params.contains(RequestParams.Key.PACKAGE);
+        return String.format(getHomepageUrlFormat(), params.get(PACKAGE).toLowerCase());
     }
-
 }

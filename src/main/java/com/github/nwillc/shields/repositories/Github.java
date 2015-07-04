@@ -38,10 +38,9 @@ public class Github extends RepositoryAccess {
     }
 
     @Override
-    public Response getHomepage(Request request, Response response) {
-        RequestParams params = new RequestParams(request);
+    String getHomepageUrl(RequestParams params) {
         params.contains(PATH, PACKAGE);
-        response.redirect(String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE)));
-        return response;
+        return String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
+
 }

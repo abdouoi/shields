@@ -34,6 +34,7 @@ public class ShieldsApplication implements SparkApplication {
             new GradlePlugin(),
             new JCenter(),
             new MavenCentral(),
+            new TLDRLegal(),
             new TravisCI()
     };
 

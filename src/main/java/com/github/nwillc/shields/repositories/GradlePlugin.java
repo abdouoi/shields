@@ -17,9 +17,6 @@
 
 package com.github.nwillc.shields.repositories;
 
-import spark.Request;
-import spark.Response;
-
 import java.util.Optional;
 
 import static com.github.nwillc.shields.repositories.RequestParams.Key.GROUP;
@@ -44,10 +41,9 @@ public class GradlePlugin extends RepositoryAccess {
     }
 
     @Override
-    public Response getHomepage(Request request, Response response) {
-        RequestParams params = new RequestParams(request);
+    String getHomepageUrl(RequestParams params) {
         params.contains(GROUP, PACKAGE);
-        response.redirect(String.format(getHomepageUrlFormat(), params.get(GROUP), params.get(PACKAGE)));
-        return response;
+        return String.format(getHomepageUrlFormat(), params.get(GROUP), params.get(PACKAGE));
     }
+
 }
