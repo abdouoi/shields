@@ -16,8 +16,11 @@ Shields is built using gradle, and provides a run script:
 
     $ ./run.sh
 
+## Deployed 
+The shields app is deployed at: [http://shields-nwillc.rhcloud.com](http://shields-nwillc.rhcloud.com)
+
 -----
-[![ISC License](https://img.shields.io/badge/license-ISC-brightgreen.svg?style=flat)](https://tldrlegal.com/license/-isc-license)
-[![Build Status](https://travis-ci.org/nwillc/shields.svg?branch=master)](https://travis-ci.org/nwillc/shields)
+[![ISC License](http://shields-nwillc.rhcloud.com/shield/tldrlegal?package=ISC)](http://shields-nwillc.rhcloud.com/homepage/tldrlegal?package=ISC)
+[![Build Status](http://shields-nwillc.rhcloud.com/shield/travis-ci?path=nwillc&package=shields)](http://shields-nwillc.rhcloud.com/homepage/travis-ci?path=nwillc&package=shields)
 [![Coverage Status](http://shields-nwillc.rhcloud.com/shield/codecov?path=github/nwillc&package=shields)](http://shields-nwillc.rhcloud.com/homepage/codecov?path=github/nwillc&package=shields)
 
