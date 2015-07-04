@@ -29,11 +29,13 @@ import static spark.SparkBase.staticFileLocation;
 public class ShieldsApplication implements SparkApplication {
     private final static Logger LOGGER = Logger.getLogger(ShieldsApplication.class.getSimpleName());
     private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{
+            new Codecov(),
+            new Github(),
+            new GradlePlugin(),
             new JCenter(),
             new MavenCentral(),
-            new GradlePlugin(),
-            new Github(),
-            new Codecov()};
+            new TravisCI()
+    };
 
     @Override
     public void init() {
@@ -50,7 +52,7 @@ public class ShieldsApplication implements SparkApplication {
         // Setup routes
         get("/ping", (request, response) -> "PONG");
         for (RepositoryAccess repo : REPOS) {
-            LOGGER.info("Registering Repo Handler for: " + repo.getClass().getSimpleName());
+            LOGGER.info("Registering Repo Handler for: /" + repo.getPath() + "/ -> " + repo.getClass().getSimpleName());
             get("/shield/" + repo.getPath(), repo::getShield);
             get("/homepage/" + repo.getPath(), repo::getHomepage);
         }

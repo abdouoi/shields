@@ -17,35 +17,22 @@
 
 package com.github.nwillc.shields.repositories;
 
-import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
-import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
 
-public class Codecov extends RepositoryAccess {
-    public static final String HOMEPAGE_URL_FORMAT = "https://codecov.io/%s/%s?branch=master";
-    public static final String SHIELD_URL_FORMAT = "http://codecov.io/%s/%s/coverage.svg?branch=master";
+public class TravisCI extends Codecov {
+    private static final String SHIELD_URL_FORMAT = "https://travis-ci.org/%s/%s.svg?branch=master";
+    private static final String HOMEPAGE_URL_FORMAT = "https://travis-ci.org/%s/%s";
 
-    public Codecov() {
+    public TravisCI() {
         super(null, HOMEPAGE_URL_FORMAT);
     }
 
-    public Codecov(String metadataUrlFormat, String homeUrlFormat) {
-        super(metadataUrlFormat, homeUrlFormat);
-    }
-
     @Override
-    String getHomepageUrl(RequestParams params) {
-        params.contains(PATH, PACKAGE);
-        return String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE));
+    public String getPath() {
+        return "travis-ci";
     }
 
     @Override
     String getShieldUrlFormat() {
         return SHIELD_URL_FORMAT;
-    }
-
-    @Override
-    String getShieldUrl(RequestParams params) {
-        params.contains(PATH, PACKAGE);
-        return String.format(getShieldUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
 }

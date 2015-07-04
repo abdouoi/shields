@@ -35,6 +35,7 @@ Currently supported repositories are:
     <li>Gradle Plugins</li>
     <li>JCenter</li>
     <li>Maven Central</li>
+    <li>Travis-CI</li>
 </ul>
 
 For any of these you can request a <code>shield</code>, which redirects to <a href="http://shields.io">shields.io</a> or
@@ -51,7 +52,7 @@ the repos own shield url, or a <code>homepage</code> which will redirect to the 
     </tr>
     <tr>
         <th>URL</th>
-        <td>/homepage/[codecov|github|gradle_plugin|jcenter|maven_central]</td>
+        <td>/homepage/[codecov|github|gradle_plugin|jcenter|maven_central|travis-ci]</td>
     </tr>
     <tr>
         <th>Method</th>
@@ -74,12 +75,12 @@ the repos own shield url, or a <code>homepage</code> which will redirect to the 
                 <tr>
                     <th align="right">package</th>
                     <td>The package name.</td>
-                    <td>codecov, github, gradle_plugin, jcenter, maven_central</td>
+                    <td>codecov, github, gradle_plugin, jcenter, maven_central, travis-ci</td>
                 </tr>
                 <tr>
                     <th align="right">path</th>
                     <td>The path to the repo, minus package name.</td>
-                    <td>codecov, github, jcenter</td>
+                    <td>codecov, github, jcenter, travis-ci</td>
                 </tr>
             </table>
         </td>
@@ -99,7 +100,7 @@ the repos own shield url, or a <code>homepage</code> which will redirect to the 
     </tr>
     <tr>
         <th>URL</th>
-        <td>/shield/[codecov|github|gradle_plugin|jcenter|maven_central]</td>
+        <td>/shield/[codecov|github|gradle_plugin|jcenter|maven_central|travis-ci]</td>
     </tr>
     <tr>
         <th>Method</th>
@@ -122,12 +123,12 @@ the repos own shield url, or a <code>homepage</code> which will redirect to the 
                 <tr>
                     <th align="right">package</th>
                     <td>The package name.</td>
-                    <td>jcenter, maven_central</td>
+                    <td>codecov, jcenter, maven_central, travis-ci</td>
                 </tr>
                 <tr>
                     <th align="right">path</th>
                     <td>The path to the repo, minus package name.</td>
-                    <td>codecov</td>
+                    <td>codecov, travis-ci</td>
                 </tr>
             </table>
         </td>
