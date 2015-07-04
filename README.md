@@ -17,7 +17,7 @@ Shields is built using gradle, and provides a run script:
     $ ./run.sh
 
 ## Deployed 
-The shields app is deployed at: [http://shields-nwillc.rhcloud.com](http://shields-nwillc.rhcloud.com)
+The shields app API docs can be found at the root of its deployment at: [http://shields-nwillc.rhcloud.com](http://shields-nwillc.rhcloud.com)
 
 -----
 [![ISC License](http://shields-nwillc.rhcloud.com/shield/tldrlegal?package=ISC)](http://shields-nwillc.rhcloud.com/homepage/tldrlegal?package=ISC)
