@@ -17,9 +17,6 @@
 
 package com.github.nwillc.shields.repositories;
 
-import spark.Request;
-import spark.Response;
-
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
 
@@ -32,9 +29,8 @@ public class Github extends RepositoryAccess {
     }
 
     @Override
-    public Response getShield(Request request, Response response) {
-        response.redirect(String.format(getShieldUrlFormat(), getPath(), "latest"));
-        return response;
+    public String getShieldUrl(RequestParams params) {
+        return String.format(getShieldUrlFormat(), getPath(), "latest");
     }
 
     @Override

@@ -44,20 +44,20 @@ public class RepositoryAccess {
         this.homeUrlFormat = homeUrlFormat;
     }
 
-    public String getPath() {
-        return this.getClass().getSimpleName().toLowerCase();
-    }
-
-    public Response getShield(Request request, Response response) throws Exception {
+    public final Response getShield(Request request, Response response) throws Exception {
         RequestParams params = new RequestParams(request);
         response.redirect(getShieldUrl(params));
         return response;
     }
 
-    public Response getHomepage(Request request, Response response) throws Exception {
+    public final Response getHomepage(Request request, Response response) throws Exception {
         RequestParams params = new RequestParams(request);
         response.redirect(getHomepageUrl(params));
         return response;
+    }
+
+    public String getPath() {
+        return this.getClass().getSimpleName().toLowerCase();
     }
 
     String getMetadataUrlFormat() {
