@@ -9,7 +9,7 @@
             border: 1px solid black;
         }
 
-        td {
+        td, th {
             padding: 5px;
         }
 
@@ -29,15 +29,50 @@
 This simple RESTful service provides redirects for site specific shields/badges and homepages.
 
 Currently supported sites are:
-<ul>
-    <li>Codecov</li>
-    <li>Github</li>
-    <li>Gradle Plugins</li>
-    <li>JCenter</li>
-    <li>Maven Central</li>
-    <li>tl;drLegal</li>
-    <li>Travis-CI</li>
-</ul>
+<blockquote>
+    <table>
+        <tr>
+            <th class="blue">Site</th>
+            <th class="blue">Path</th>
+            <th class="blue">Description</th>
+        </tr>
+        <tr>
+            <th class="blue">Codecov.io</th>
+            <th>codecov</th>
+            <td>Static analysis code coverage</td>
+        </tr>
+        <tr>
+            <th class="blue">GitHub.com</th>
+            <th>github</th>
+            <td>Git repository</td>
+        </tr>
+        <tr>
+            <th class="blue">Plugins.gradle.org</th>
+            <th>gradle_plugin</th>
+            <td>Plugins for gradle</td>
+        </tr>
+        <tr>
+            <th class="blue">bintray.com</th>
+            <th>jcenter</th>
+            <td>Code artifacts</td>
+        </tr>
+        <tr>
+            <th class="blue">search.maven.org</th>
+            <th>maven_central</th>
+            <td>Code artifacts</td>
+        </tr>
+        <tr>
+            <th class="blue">tldrlegal.com</th>
+            <th>tldrlegal</th>
+            <td>Software license explanations</td>
+        </tr>
+        <tr>
+            <th class="blue">travis-ci.org</th>
+            <th>travis-ci</th>
+            <td>Continuous delivery</td>
+        </tr>
+    </table>
+</blockquote>
 
 For any of these you can request a <code>shield</code>, which redirects to <a href="http://shields.io">shields.io</a> or
 the repos own shield url, or a <code>homepage</code> which will redirect to the specified homepage at the site.
