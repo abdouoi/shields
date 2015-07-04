@@ -29,7 +29,7 @@ public class TLDRLegal extends RepositoryAccess {
     @Override
     String getShieldUrl(RequestParams params) {
         params.contains(RequestParams.Key.PACKAGE);
-        return String.format(getShieldUrlFormat(), "License", params.get(RequestParams.Key.PACKAGE));
+        return String.format(getShieldUrlFormat(), "license", params.get(RequestParams.Key.PACKAGE));
     }
 
     @Override
