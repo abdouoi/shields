@@ -22,8 +22,8 @@ import org.apache.commons.cli.*;
 import java.util.logging.Logger;
 
 import static com.github.nwillc.shields.CommandLineInterface.CLI;
-import static spark.SparkBase.ipAddress;
-import static spark.SparkBase.port;
+import static spark.Spark.ipAddress;
+import static spark.Spark.port;
 
 public class Shields {
     private final static Logger LOGGER = Logger.getLogger(Shields.class.getSimpleName());

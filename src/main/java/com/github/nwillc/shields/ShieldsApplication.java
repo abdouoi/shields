@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 import static spark.Spark.exception;
 import static spark.Spark.get;
-import static spark.SparkBase.staticFileLocation;
+import static spark.Spark.staticFileLocation;
 
 class ShieldsApplication implements SparkApplication {
     private final static Logger LOGGER = Logger.getLogger(ShieldsApplication.class.getSimpleName());
