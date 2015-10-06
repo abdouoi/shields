@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class CodecovTest {
-    protected RepositoryAccess instance;
+    RepositoryAccess instance;
     private Request request;
     private Response response;
     private RequestParams params;
