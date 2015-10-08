@@ -35,7 +35,7 @@ public final class CommandLineInterface {
 
     public static void help(Options options, int status) {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("java com.github.nwillc.shields.Shields", options, true);
+        formatter.printHelp("java " + Shields.class.getCanonicalName(), options, true);
         System.exit(status);
     }
 
