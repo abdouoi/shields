@@ -19,6 +19,7 @@ package com.github.nwillc.shields.repositories.utils;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
 import java.util.Optional;
@@ -36,18 +37,20 @@ public final class XMLUtils {
      * @return optional value of latest element.
      */
     public static Optional<String> latestVersion(InputStream metadata1) {
-        try {
-            final XMLStreamReader xmlStreamReader = XMLInputFactory.newFactory().createXMLStreamReader(metadata1);
-            xmlStreamReader.getEventType();
-            while (xmlStreamReader.hasNext()) {
-                final int next = xmlStreamReader.next();
-                if (next == XMLStreamConstants.START_ELEMENT && xmlStreamReader.getLocalName().equalsIgnoreCase(LATEST)) {
-                    return Optional.of(xmlStreamReader.getElementText());
+        try (AutoCloseableXMLStreamReader xmlStreamReader = new AutoCloseableXMLStreamReader(XMLInputFactory.newFactory().createXMLStreamReader(metadata1)))
+        {
+            xmlStreamReader.getXmlStreamReader().getEventType();
+            while (xmlStreamReader.getXmlStreamReader().hasNext()) {
+                final int next = xmlStreamReader.getXmlStreamReader().next();
+                if (next == XMLStreamConstants.START_ELEMENT &&
+                        xmlStreamReader.getXmlStreamReader().getLocalName().equalsIgnoreCase(LATEST)) {
+                    return Optional.of(xmlStreamReader.getXmlStreamReader().getElementText());
                 }
             }
         } catch (Exception e) {
             LOGGER.warning("Unable to parse maven-metadata.xml stream: " + e);
         }
+
         return Optional.empty();
     }
 }
