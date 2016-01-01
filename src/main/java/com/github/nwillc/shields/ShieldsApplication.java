@@ -20,7 +20,11 @@ package com.github.nwillc.shields;
 import com.github.nwillc.shields.repositories.*;
 import spark.servlet.SparkApplication;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static spark.Spark.exception;
 import static spark.Spark.get;
@@ -37,6 +41,18 @@ class ShieldsApplication implements SparkApplication {
             new TLDRLegal(),
             new TravisCI()
     };
+    private String properties = "";
+
+    public ShieldsApplication() {
+        try (
+                final InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/build.json"));
+                final BufferedReader bufferedReader = new BufferedReader(isr)
+        ) {
+            properties = bufferedReader.lines().collect(Collectors.joining("\n"));
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Could not load build info", e);
+        }
+    }
 
     @Override
     public void init() {
@@ -52,6 +68,8 @@ class ShieldsApplication implements SparkApplication {
 
         // Setup routes
         get("/ping", (request, response) -> "PONG");
+        get("/properties", (request, response) -> properties);
+
         for (RepositoryAccess repo : REPOS) {
             LOGGER.info("Registering Repo Handler for: /" + repo.getPath() + "/ -> " + repo.getClass().getSimpleName());
             get("/shield/" + repo.getPath(), repo::getShield);
