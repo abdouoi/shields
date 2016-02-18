@@ -17,25 +17,21 @@
 
 package com.github.nwillc.shields.repositories;
 
-import java.util.Optional;
-
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
 
 public class JCenter extends RepositoryAccess {
-    private static final String METADATA_URL_FORMAT = "https://jcenter.bintray.com/%s/%s/maven-metadata.xml";
     private static final String HOME_URL_FORMAT = "https://bintray.com/%s/%s/view";
-    private static final String SHIELD_URL_FORMAT = "http://img.shields.io/bintray/v/%s/maven/%s.svg";
+    private static final String SHIELD_URL_FORMAT = "https://api.bintray.com/packages/%s/maven/%s/images/download.svg";
 
     public JCenter() {
-        super(METADATA_URL_FORMAT, HOME_URL_FORMAT);
+        super(null, HOME_URL_FORMAT);
     }
 
     @Override
     String getHomepageUrl(RequestParams params) {
-        params.contains(PATH);
-        Optional<String> latestVersion  = lookupValue(params);
-        return String.format(getHomepageUrlFormat(), params.get(PATH), latestVersion.get());
+        params.contains(PATH, PACKAGE);
+        return String.format(getShieldUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
 
     @Override

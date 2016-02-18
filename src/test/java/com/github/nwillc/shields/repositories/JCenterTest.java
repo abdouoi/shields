@@ -39,6 +39,7 @@ public class JCenterTest {
         request = mock(Request.class);
         response = mock(Response.class);
         when(request.queryParams("path")).thenReturn("path");
+        when(request.queryParams("package")).thenReturn("package");
     }
 
     @Test
@@ -56,6 +57,6 @@ public class JCenterTest {
 
         ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
         verify(response).redirect(argument.capture());
-        assertThat(argument.getValue()).isEqualTo("path|1");
+        assertThat(argument.getValue()).isEqualTo("https://api.bintray.com/packages/path/maven/package/images/download.svg");
     }
 }
