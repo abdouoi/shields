@@ -31,7 +31,7 @@ public class JCenter extends RepositoryAccess {
     @Override
     String getHomepageUrl(RequestParams params) {
         params.contains(PATH, PACKAGE);
-        return String.format(getShieldUrlFormat(), params.get(PATH), params.get(PACKAGE));
+        return String.format(getHomepageUrlFormat(), params.get(PATH), params.get(PACKAGE));
     }
 
     @Override
