@@ -57,6 +57,6 @@ public class JCenterTest {
 
         ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
         verify(response).redirect(argument.capture());
-        assertThat(argument.getValue()).isEqualTo("https://api.bintray.com/packages/path/maven/package/images/download.svg");
+        assertThat(argument.getValue()).isEqualTo("path|package");
     }
 }
