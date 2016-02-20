@@ -21,7 +21,7 @@ import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PATH;
 
 public class JCenter extends RepositoryAccess {
-    private static final String HOME_URL_FORMAT = "https://bintray.com/%s/%s/view";
+    private static final String HOME_URL_FORMAT = "https://bintray.com/%s/maven/%s/view";
     private static final String SHIELD_URL_FORMAT = "https://api.bintray.com/packages/%s/maven/%s/images/download.svg";
 
     public JCenter() {
