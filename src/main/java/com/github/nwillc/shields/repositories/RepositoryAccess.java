@@ -18,13 +18,12 @@
 package com.github.nwillc.shields.repositories;
 
 import com.github.nwillc.shields.repositories.utils.XMLUtils;
+import org.pmw.tinylog.Logger;
 import spark.Request;
 import spark.Response;
 
 import java.net.URL;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.github.nwillc.shields.repositories.RequestParams.Key.GROUP;
 import static com.github.nwillc.shields.repositories.RequestParams.Key.PACKAGE;
@@ -33,7 +32,6 @@ public class RepositoryAccess {
     public static final String SHIELD_COLOR = "brightgreen";
     public static final String SHIELD_STYLE = "flat";
 
-    private static final Logger LOGGER = Logger.getLogger(RepositoryAccess.class.getSimpleName());
     private static final String SHIELD_URL = "http://img.shields.io/badge/%s-%s-" + SHIELD_COLOR + ".svg?style=" + SHIELD_STYLE;
 
     private final String metadataUrlFormat;
@@ -66,7 +64,7 @@ public class RepositoryAccess {
 
     String getMetadataUrl(RequestParams params) {
         params.contains(GROUP, PACKAGE);
-        return String.format(getMetadataUrlFormat(), params.get(GROUP).replace('.','/'), params.get(PACKAGE));
+        return String.format(getMetadataUrlFormat(), params.get(GROUP).replace('.', '/'), params.get(PACKAGE));
     }
 
     String getHomepageUrlFormat() {
@@ -75,7 +73,7 @@ public class RepositoryAccess {
 
     String getHomepageUrl(RequestParams params) {
         params.contains(GROUP, PACKAGE);
-        Optional<String> latestVersion  = lookupValue(params);
+        Optional<String> latestVersion = lookupValue(params);
         return String.format(getHomepageUrlFormat(), params.get(GROUP), params.get(PACKAGE), latestVersion.get());
     }
 
@@ -84,7 +82,7 @@ public class RepositoryAccess {
     }
 
     String getShieldUrl(RequestParams params) {
-        Optional<String> latestVersion  = lookupValue(params);
+        Optional<String> latestVersion = lookupValue(params);
         return String.format(getShieldUrlFormat(), getPath(), latestVersion.get());
     }
 
@@ -94,7 +92,7 @@ public class RepositoryAccess {
             URL url = new URL(metadatUrl);
             return XMLUtils.latestVersion(url.openStream());
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Exception getting latest version from " + metadatUrl + ": " + e);
+            Logger.warn("Exception getting latest version from " + metadatUrl, e);
         }
         return Optional.empty();
     }

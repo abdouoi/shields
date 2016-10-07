@@ -27,13 +27,13 @@ import java.util.stream.Stream;
 public class MissingParamException extends RuntimeException {
     private final RequestParams.Key[] keys;
 
-    public MissingParamException(RequestParams.Key ... keys) {
+    public MissingParamException(RequestParams.Key... keys) {
         this.keys = keys;
     }
 
     @Override
     public String getMessage() {
         return String.format("Missing one of the required parameters: %s\n",
-                Stream.of(keys).map(k -> k.name().toLowerCase()).reduce("", (f,s) -> f + ',' +  s));
+                Stream.of(keys).map(k -> k.name().toLowerCase()).reduce("", (f, s) -> f + ',' + s));
     }
 }

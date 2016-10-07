@@ -17,28 +17,28 @@
 
 package com.github.nwillc.shields.repositories.utils;
 
+import org.pmw.tinylog.Logger;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
 import java.util.Optional;
-import java.util.logging.Logger;
+
 
 public final class XMLUtils {
-    private final static Logger LOGGER = Logger.getLogger(XMLUtils.class.getSimpleName());
     private static final String LATEST = "latest";
 
-    private XMLUtils() {}
+    private XMLUtils() {
+    }
 
     /**
      * Given the XML of a maven-metadata.xml file extract the value of the <code>latest</code> element if present.
+     *
      * @param metadata1 input stream to maven-metadata.xml
      * @return optional value of latest element.
      */
     public static Optional<String> latestVersion(InputStream metadata1) {
-        try (AutoCloseableXMLStreamReader xmlStreamReader = new AutoCloseableXMLStreamReader(XMLInputFactory.newFactory().createXMLStreamReader(metadata1)))
-        {
+        try (AutoCloseableXMLStreamReader xmlStreamReader = new AutoCloseableXMLStreamReader(XMLInputFactory.newFactory().createXMLStreamReader(metadata1))) {
             xmlStreamReader.getXmlStreamReader().getEventType();
             while (xmlStreamReader.getXmlStreamReader().hasNext()) {
                 final int next = xmlStreamReader.getXmlStreamReader().next();
@@ -48,7 +48,7 @@ public final class XMLUtils {
                 }
             }
         } catch (Exception e) {
-            LOGGER.warning("Unable to parse maven-metadata.xml stream: " + e);
+            Logger.warn("Unable to parse maven-metadata.xml stream: " + e);
         }
 
         return Optional.empty();

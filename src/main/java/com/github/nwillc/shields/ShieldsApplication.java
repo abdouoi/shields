@@ -18,20 +18,16 @@
 package com.github.nwillc.shields;
 
 import com.github.nwillc.shields.repositories.*;
+import org.pmw.tinylog.Logger;
 import spark.servlet.SparkApplication;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static spark.Spark.exception;
-import static spark.Spark.get;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 class ShieldsApplication implements SparkApplication {
-    private final static Logger LOGGER = Logger.getLogger(ShieldsApplication.class.getSimpleName());
     private final static RepositoryAccess[] REPOS = new RepositoryAccess[]{
             new Codecov(),
             new Github(),
@@ -50,7 +46,7 @@ class ShieldsApplication implements SparkApplication {
         ) {
             properties = bufferedReader.lines().collect(Collectors.joining("\n"));
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Could not load build info", e);
+            Logger.warn("Could not load build info", e);
         }
     }
 
@@ -61,7 +57,7 @@ class ShieldsApplication implements SparkApplication {
 
         // Exception Handler for missing parameters
         exception(MissingParamException.class, (e, req, res) -> {
-            LOGGER.info(String.format("Invalid request %s from %s: %s", req.url(), req.ip(), e.getMessage()));
+            Logger.info(String.format("Invalid request %s from %s: %s", req.url(), req.ip(), e.getMessage()));
             res.status(404);
             res.body(e.getMessage());
         });
@@ -71,7 +67,7 @@ class ShieldsApplication implements SparkApplication {
         get("/properties", (request, response) -> properties);
 
         for (RepositoryAccess repo : REPOS) {
-            LOGGER.info("Registering Repo Handler for: /" + repo.getPath() + "/ -> " + repo.getClass().getSimpleName());
+            Logger.info("Registering Repo Handler for: /" + repo.getPath() + "/ -> " + repo.getClass().getSimpleName());
             get("/shield/" + repo.getPath(), repo::getShield);
             get("/homepage/" + repo.getPath(), repo::getHomepage);
         }

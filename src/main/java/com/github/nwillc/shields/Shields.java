@@ -18,15 +18,13 @@
 package com.github.nwillc.shields;
 
 import org.apache.commons.cli.*;
-
-import java.util.logging.Logger;
+import org.pmw.tinylog.Logger;
 
 import static com.github.nwillc.shields.CommandLineInterface.CLI;
 import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 
 public class Shields {
-    private final static Logger LOGGER = Logger.getLogger(Shields.class.getSimpleName());
     private final static ShieldsApplication application = new ShieldsApplication();
 
     // Run the app with embedded Jetty
@@ -43,17 +41,17 @@ public class Shields {
             }
 
             if (commandLine.hasOption(CLI.port.name())) {
-                LOGGER.info("Configuring port: " + commandLine.getOptionValue(CLI.port.name()));
+                Logger.info("Configuring port: " + commandLine.getOptionValue(CLI.port.name()));
                 port(Integer.parseInt(commandLine.getOptionValue(CLI.port.name())));
             }
 
             if (commandLine.hasOption(CLI.address.name())) {
-                LOGGER.info("Configuring address: " + commandLine.getOptionValue(CLI.address.name()));
+                Logger.info("Configuring address: " + commandLine.getOptionValue(CLI.address.name()));
                 ipAddress(commandLine.getOptionValue(CLI.address.name()));
             }
 
         } catch (ParseException e) {
-            LOGGER.severe("Failed to parse command line: " + e);
+            Logger.error("Failed to parse command line: " + e);
             CommandLineInterface.help(options, 1);
         }
 

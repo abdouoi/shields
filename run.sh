@@ -1,9 +1,13 @@
 #!/bin/bash
 
-SCRIPT_DIR=$(cd $(dirname ${0}) && pwd -P)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" > /dev/null 2>&1 && pwd -P)"
 
 cd ${SCRIPT_DIR}
 
-./gradlew -q stage
+echo Rebuilding...
+./gradlew -q clean oneJar -x test
 
-java -cp build/staging:build/staging/* com.github.nwillc.shields.Shields $*
+JAVA_OPTS=-Djava.awt.headless=true
+
+echo Start server...
+java ${JAVA_OPTS} -jar build/libs/shields-*-standalone.jar $*

@@ -25,7 +25,8 @@ import org.apache.commons.cli.Options;
  * Support for command line processing.
  */
 public final class CommandLineInterface {
-    private CommandLineInterface() {}
+    private CommandLineInterface() {
+    }
 
     enum CLI {
         address,

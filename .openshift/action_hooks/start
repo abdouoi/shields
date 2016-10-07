@@ -3,5 +3,7 @@
 export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
 export PATH=${JAVA_HOME}/bin:${PATH}
 
+JAVA_OPTS=-Djava.awt.headless=true
+
 cd ${OPENSHIFT_REPO_DIR}
-java -cp build/staging:build/staging/* com.github.nwillc.shields.Shields -a ${OPENSHIFT_DIY_IP} -p 8080 |& /usr/bin/logshifter -tag shields &
+java ${JAVA_OPTS} -jar build/libs/shields-*-standalone.jar -a ${OPENSHIFT_DIY_IP} -p 8080 |& /usr/bin/logshifter -tag shields &
